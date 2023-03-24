@@ -1,0 +1,11 @@
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="cloth_name">
+    <input type="text" name="cloth_var">
+    <input type="color"name="cloth_col_1">
+    <input type="color" name="cloth_col_2">
+    
+    <button type="submit" class="btn btn-primary">저장</button>
+
+    {{ post }}
+</form>
