@@ -11,5 +11,4 @@ def index(request):
 def welcome(request):
     template = loader.get_template('app/welcome.html')
     context = {}
-    # return HttpResponse(template.render(request))
     return render(request, 'app/welcome.html')
