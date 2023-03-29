@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <style>
         body{
-            background-color: black;
+            background-image: url('{% static 'app/img/welcome.png' %}');
         }
         *{
             font-family: 'Black Han Sans', sans-serif;
@@ -16,6 +17,14 @@
         }
         .test{
             border: 1px solid black;
+        }
+        .btn{
+            padding: 0 15px 0 37px;
+            border-radius: 2px;
+            border: 1px solid #ff2477;
+            color: #fff;
+            box-shadow: 0 6px 7px -8px rgba(0,0,0,0.2);
+            background: #ff2477"
         }
     </style>
 </head>
@@ -25,13 +34,13 @@
     <span style="font-size:100px;">오늘의 코디는?</span>
 </div>
 <div class="test" style="text-align:right;margin-left: 469px;margin-top: 238px;margin-right: 40px;">
-    <button class="test" style="background-color:red;border-radius: 20px;background-color: #d64065;color: white;">_로그인_</button>
+    <button class="btn" style="color: #fff;background: #ff2477">로그인</button>
     <br>
     <br>
-    <button class="test" style="background-color: #78c8bd;border-radius: 20px;">_회원가입_</button>
+    <button class="btn" style="color: #000;background: #f9f5e6">회원가입</button>
     <br>
     <br>
-    <button class="test" style="background-color:#fd7b03;border-radius: 20px;">_바로 시작하기_</button>
+    <button class="btn" style="color:#000;background:#fedbd2;">바로 시작하기</button>
 </div>
 </body>
 </html>
