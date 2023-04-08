@@ -7,10 +7,11 @@ from django.utils import timezone
 # 계정 테이블
 # ID, PW, email, 별명
 class User(models.Model):
+    # Django에서 자동으로 생성되는 id가 아니고, 사용자가 입력해 사용하는것입니다.
     _id = models.CharField(max_length=30)
-    password = models.CharField(max_length=30)  # 평문으로 데이터가 들어감. 암호화 필수.
-    sign_up_date = models.DateTimeField('sing up date')
-    nickname = models.CharField(max_length=30)
+    password = models.CharField(max_length=30, null=False)  # 평문으로 데이터가 들어감. 암호화 필수.
+    sign_up_date = models.DateTimeField('sing up date', null=False)
+    nickname = models.CharField(max_length=30, null=False)
 
     def __str__(self):
         return 'id:' + self._id.__str__() \
@@ -22,12 +23,21 @@ class User(models.Model):
         self.sign_up_date = timezone.now()
         self.save()
 
-    # 수정
-    def update(self):
-        pass
+    # 닉네임 변경
+    # def chagne_nickname(self):
+    #     self.save(update_fields=self.nickname)
+
+    # 비밀번호 변경
+    # def change_password(self):
+    #     self.save(update_fields=self.password)
 
     # 탈퇴
+    # id를 받아 계정을 삭제
     def drop_out(self):
+        pass
+
+    # 들어온 id, pw를 확인하고 계정의
+    def login(self):
         pass
 
 
