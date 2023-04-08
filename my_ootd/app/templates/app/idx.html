@@ -10,10 +10,14 @@
     SESSION:<span></span><br>
     ID:<span></span><br>
     NI:<span></span>
+    {{user}}
 </div>
 <ul>
-    <li><a href="/app/sign-up">회원가입</a></li>
-    <li><a href="/app/login">로그인</a></li>
+    <li><a href="{% url 'app:sign_up' %}">회원가입</a></li>
+    <li><a href="{% url 'app:login' %}">로그인</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'app:logout' %}">로그아웃</a></li>
+    {% endif %}
 </ul>
 </body>
 </html>
