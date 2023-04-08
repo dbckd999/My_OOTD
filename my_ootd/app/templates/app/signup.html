@@ -5,12 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<form action="{% url 'app:sign_up_proc' %}" method="post">
+<form action="{% url 'app:sign_up' %}" method="post">
     {% csrf_token %}
-    ID:<input type="text" name="id" value="my_test_id"><br>
-    PW:<input type="password" name="password" value="my_test_pw"><br>
+    ID:<input type="text" name="username" value="my_test_id"><br>
+    PW:<input type="password" name="password" value="luhmvfhrn3"><br>
     PW_re:<input type="password" name="password2" value="my_test_pw2"><br>
     Nick<input type="text" name="nickname" value="my_test_nick"><br>
+    e-mail:<input type="email" name="email"><br>
     <input type="submit" value="회원가입">
 </form>
 <a href="{% url 'app:root' %}">홈으로</a>
