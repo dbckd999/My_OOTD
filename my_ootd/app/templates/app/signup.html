@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="{% url 'sign_up_proc' %}" method="post">
+<form action="{% url 'app:sign_up_proc' %}" method="post">
     {% csrf_token %}
     ID:<input type="text" name="id" value="my_test_id"><br>
     PW:<input type="password" name="password" value="my_test_pw"><br>
@@ -13,5 +13,6 @@
     Nick<input type="text" name="nickname" value="my_test_nick"><br>
     <input type="submit" value="회원가입">
 </form>
+<a href="{% url 'app:root' %}">홈으로</a>
 </body>
 </html>
