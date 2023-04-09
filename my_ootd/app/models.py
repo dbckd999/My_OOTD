@@ -21,11 +21,12 @@ from django.contrib.auth.models import User
 class UserClothes(models.Model):
     # tmp_userid = models.CharField(max_length=10) # 임시 계정
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE) # 유저 계정
+    userID = models.IntegerField(null=True)
+    username = models.CharField(max_length=50, null=True)
     cloth_name = models.CharField(max_length=50) # 옷 이름
     cloth_var = models.CharField(max_length=30) # 옷 종류 (자켓, 셔츠 등)
     cloth_col_1 = models.CharField(max_length=30) # 옷 색깔 1
     cloth_col_2 = models.CharField(max_length=30) # 옷 색깔 2
 
     def __str__(self):
-        return f'{self.user_id} {self.cloth_name} {self.cloth_var} {self.cloth_col_1} {self.cloth_col_2}'
+        return f'{self.userID} {self.username} {self.cloth_name} {self.cloth_var} {self.cloth_col_1} {self.cloth_col_2}'

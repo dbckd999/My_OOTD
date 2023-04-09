@@ -14,7 +14,6 @@
 <form method="post">
     {% csrf_token %}
     <input type="text" name="userID_Delete" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
-    <!--<input type="text" name="userID" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">-->
     <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="text" name="cloth_var" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="color"name="cloth_col_1" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
@@ -23,8 +22,10 @@
     <button type="submit" class="btn btn-primary">저장/삭제</button>
 
     <div class = "main">
+        
         {% for queryset in queryset %}        
         {{ queryset.userID }}<br />
+        {{ queryset.username }}<br />
         {{ queryset.cloth_name }}<br />
         {{ queryset.cloth_var }}<br />
         {{ queryset.cloth_col_1 }}<br />
