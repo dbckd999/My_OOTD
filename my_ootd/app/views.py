@@ -16,11 +16,6 @@ def root(request):
     return render(request, 'app/idx.html', context)
 
 
-def welcome(request):
-    template = loader.get_template('app/welcome.html')
-    return render(request, 'app/welcome.html')
-
-
 # 회원가입
 # https://docs.djangoproject.com/en/4.2/topics/auth/default/#how-to-log-a-user-in
 def sign_up(request):
