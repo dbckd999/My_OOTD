@@ -41,8 +41,8 @@ def logout(request):
 # 옷 db에 저장, 조회, 삭제
 def create_cloth(request):
     if request.method == 'POST':
-            # db 전체 삭제
-            # UserClothes.objects.all().delete()
+        # db 전체 삭제
+        # UserClothes.objects.all().delete()
         post = UserClothes()
         user = User()
         # "index.html" 색상 제외 input text 칸 3개
@@ -57,17 +57,17 @@ def create_cloth(request):
             post.cloth_col_1 = request.POST['cloth_col_1']
             post.cloth_col_2 = request.POST['cloth_col_2']
 
-            if (user_id_delete != ""):
+            if user_id_delete != "":
                 delete_id = UserClothes.objects.filter(userID=user_id_delete)
                 delete_id.delete()
-            elif (post.cloth_name != "" and post.cloth_var != ""):
+            elif post.cloth_name != "" and post.cloth_var != "":
                 post.save()
         return redirect('/app/create')
         
     else:
         userClothes_post = {}
-            # db 모든 데이터 조회
-            #userClothes_post["queryset"] = UserClothes.objects.all()
+        # db 모든 데이터 조회
+        # userClothes_post["queryset"] = UserClothes.objects.all()
 
         # '''여기에 userID 입력''' 에 userID 입력 시 userID와 관련된 모든 데이터 조회
         # 조회 시 나오는 내용 : 유저 고유 번호, 별명, 옷 이름, 옷 종류, 색1, 색2
