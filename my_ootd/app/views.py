@@ -2,11 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.urls import reverse
 
 from .models import UserClothes
 from .forms import UserClothesForm
-# Create your views here.
 
 
 # 다른페이지 이동 편의로 만듦
@@ -24,39 +23,15 @@ def welcome(request):
 def sign_up(request):
     if request.method == 'POST':
         user = User(
-            username=request.POST['id']
+            username=request.POST['username']
             , password=request.POST['password']
             # , nickname=request.POST['nickname'] # Django 기본제공 User 커스텀 필요
             , email=request.POST['email']
             , last_name=request.POST['nickname']
         ).save()
-        print(user)
+        return redirect('/app/')
 
-    return render(request, 'app/idx.html')
-
-
-# 로그인
-# def sign_in(request):
-#     pass
-    # logger.debug('asdf')
-    # print('sign-in..asdfasdf.')
-    # if request.method == 'POST':
-    #     print('sign-in...')
-    #     username = request.POST["username"]
-    #     password = request.POST["password"]
-    #     # 사용자 인증
-    #     user = authenticate(request, username=username, password=password)
-    #     print(user)
-    #     if user is not None:
-    #         print('login suc')
-    #         login(request, user)
-    #         return redirect('app/root')
-    #     else:
-    #         print('login fail')
-    #         return render(request, 'app/sign-in.html')
-    #
-    # elif request.method == 'GET':
-    #     return render(request, 'app/sign-in.html')
+    return render(request, 'app/signup.html')
 
 
 # 로그아웃
