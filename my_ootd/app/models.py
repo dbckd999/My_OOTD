@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # 사용자의 옷 데이터를 관리합니다.
 # 사용자 고유번호는 장고에 기본 제공되는 _id 속성을 사용합니다.
@@ -17,15 +18,14 @@ from django.db import models
     # 여기에 userID 입력 에 아무것도 입력하지 않았을 때 (주석만 넣었을 때)                            -- 조회창에 아무것도 나오지 않음
 ''' 
 
-
 class UserClothes(models.Model):
-    #user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    # tmp_userid = models.CharField(max_length=10) # 임시 계정
 
-    tmp_userid = models.CharField(max_length=10) # 임시 계정
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE) # 유저 계정
     cloth_name = models.CharField(max_length=50) # 옷 이름
     cloth_var = models.CharField(max_length=30) # 옷 종류 (자켓, 셔츠 등)
     cloth_col_1 = models.CharField(max_length=30) # 옷 색깔 1
     cloth_col_2 = models.CharField(max_length=30) # 옷 색깔 2
 
     def __str__(self):
-        return f'{self.tmp_userid} {self.cloth_name} {self.cloth_var} {self.cloth_col_1} {self.cloth_col_2}'
+        return f'{self.user_id} {self.cloth_name} {self.cloth_var} {self.cloth_col_1} {self.cloth_col_2}'

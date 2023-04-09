@@ -2,8 +2,8 @@
     // 특수문자 입력 방지
     function characterCheck(obj){
     var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
-    // 허용할 특수문자는 여기서 삭제하면 됨
-    // 지금은 띄어쓰기도 특수문자 처리됨 참고하셈
+    // 허용할 특수문자는 위에서 삭제
+    // 띄어쓰기도 특수문자 처리
     if( regExp.test(obj.value) ){
         alert("특수문자는 입력하실수 없습니다.");
         obj.value = obj.value.substring( 0 , obj.value.length - 1 ); // 입력한 특수문자 한자리 지움
@@ -13,6 +13,7 @@
 
 <form method="post">
     {% csrf_token %}
+    <input type="text" name="userID_Delete" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="text" name="userID" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="text" name="cloth_var" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
