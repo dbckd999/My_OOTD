@@ -49,7 +49,6 @@ def create_cloth(request):
             # db 전체 삭제
             # UserClothes.objects.all().delete()
         post = UserClothes()
-        
         # "index.html" 색상 제외 input text 칸 4개
         # 맨 왼쪽에 userID 입력 시 userID와 관련된 내용 모두 삭제
         # 맨 왼쪽 제외 나머지 두 칸은 각각 옷이름, 옷종류
@@ -76,4 +75,4 @@ def create_cloth(request):
 
         # '''여기에 userID 입력''' 에 userID 입력 시 userID와 관련된 모든 데이터 조회
         userClothes_post["queryset"] = UserClothes.objects.filter(cloth_name='''여기에 userID 입력''')
-        return render(request, 'index.html', userClothes_post)
+        return render(request, 'app/clothes.html', userClothes_post)
