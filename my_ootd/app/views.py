@@ -10,7 +10,10 @@ from .forms import UserClothesForm
 
 # 다른페이지 이동 편의로 만듦
 def root(request):
-    return render(request, 'app/idx.html')
+    context = {
+        "user": request.user,
+    }
+    return render(request, 'app/idx.html', context)
 
 
 def welcome(request):

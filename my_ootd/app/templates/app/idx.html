@@ -5,19 +5,19 @@
     <title>Title</title>
 </head>
 <body>
-<span>현재 상태</span>
+{% if user.is_authenticated %}
 <div style="border:1px solid black;">
-    SESSION:<span></span><br>
-    ID:<span></span><br>
-    NI:<span></span>
-    {{user}}
+    유저 고유번호:<span>{{user.id}}</span><br>
+    아이디:<span>{{user.get_username}}</span><br>
+    별명:<span>{{user.get_full_name}}</span><br>
+    이메일:<span>{{user.email}}</span><br>
+    <a href="{% url 'app:logout' %}">로그아웃</a>
 </div>
+{% else %}
 <ul>
     <li><a href="{% url 'app:sign_up' %}">회원가입</a></li>
     <li><a href="{% url 'app:login' %}">로그인</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'app:logout' %}">로그아웃</a></li>
-    {% endif %}
 </ul>
+{% endif %}
 </body>
 </html>
