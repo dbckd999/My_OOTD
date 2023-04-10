@@ -11,5 +11,11 @@ urlpatterns = [
     path('sign-up', views.sign_up, name='sign_up'),
     path('login', auth_views.LoginView.as_view(template_name='app/login.html'), name='login'),
     path('logout', auth_views.LogoutView.as_view(template_name='app/idx.html'), name='logout'),
-    path('create', views.create_cloth, name='create')
+    path('create', views.create_cloth, name='create'),
+
+
+
+
+
+    path('main_page', views.main_page, name='main_page')
 ]
