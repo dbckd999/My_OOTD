@@ -49,8 +49,8 @@ def create_cloth(request):
         # 맨 왼쪽에 userID 입력 시 userID와 관련된 내용 모두 삭제
         # 맨 왼쪽 제외 나머지 두 칸은 각각 옷이름, 옷종류          
         if user.is_authenticated:
-            user_id_delete = request.POST["userID_Delete"] 
-            post.userID = request.user.id
+            user_id_delete = request.POST["userID_Delete"]
+            post.user_id = User.objects.get(id=request.user.id)
             post.username = request.user.get_full_name()
             post.cloth_name = request.POST['cloth_name']
             post.cloth_var = request.POST['cloth_var']
@@ -58,18 +58,24 @@ def create_cloth(request):
             post.cloth_col_2 = request.POST['cloth_col_2']
 
             if user_id_delete != "":
-                delete_id = UserClothes.objects.filter(userID=user_id_delete)
+                delete_id = UserClothes.objects.filter(user_id=user_id_delete)
                 delete_id.delete()
             elif post.cloth_name != "" and post.cloth_var != "":
                 post.save()
         return redirect('/app/create')
         
     else:
-        userClothes_post = {}
+        retrieve = User.objects.get(id=request.user.id)
+        userClothes_post = {
+            "user": request.user,
+            "userdata": UserClothes.all_user_datas(UserClothes(), retrieve)
+        }
         # db 모든 데이터 조회
         # userClothes_post["queryset"] = UserClothes.objects.all()
 
         # '''여기에 userID 입력''' 에 userID 입력 시 userID와 관련된 모든 데이터 조회
         # 조회 시 나오는 내용 : 유저 고유 번호, 별명, 옷 이름, 옷 종류, 색1, 색2
-        userClothes_post["queryset"] = UserClothes.objects.filter(userID='''여기에 userID 입력''')
+        #userClothes_post["queryset"] = UserClothes.objects.filter(userID='''여기에 userID 입력''')
+        
+
         return render(request, 'app/clothes.html', userClothes_post)
