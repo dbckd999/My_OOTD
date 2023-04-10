@@ -11,9 +11,9 @@ from .forms import UserClothesForm
 # 다른페이지 이동 편의로 만듦
 def root(request):
     context = {
-        "user": request.user,
+        # "user": request.user,
     }
-    return render(request, 'app/idx.html', context)
+    return render(request, 'app/main_page.html', context)
 
 
 # 회원가입
@@ -74,7 +74,3 @@ def create_cloth(request):
 
         # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/clothes.html', userClothes_post)
-
-
-def main_page(request):
-    return render(request, 'app/main_page.html')
