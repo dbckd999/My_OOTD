@@ -1,11 +1,9 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.template import loader
 from django.contrib.auth.models import User
-from django.urls import reverse
+from django.contrib.auth import authenticate, login
 
-from .models import UserClothes
-from .forms import UserClothesForm
+from .models import UserClothes, SevUser
+from .forms import UserClothesForm, SevUserCreationForm
 
 
 # 다른페이지 이동 편의로 만듦
@@ -16,18 +14,30 @@ def root(request):
     return render(request, 'app/main_page.html', context)
 
 
-# 회원가입
-# https://docs.djangoproject.com/en/4.2/topics/auth/default/#how-to-log-a-user-in
+# 회원가입 https://docs.djangoproject.com/en/4.2/topics/auth/default/#how-to-log-a-user-in
+# 폼 클래스 사용 https://wikidocs.net/71303#formspy
 def sign_up(request):
     if request.method == 'POST':
-        user = User(
-            # , nickname=request.POST['nickname'] # Django 기본제공 User 커스텀 필요
-            username=request.POST['username'], password=request.POST[
-                'password'], email=request.POST['email'], last_name=request.POST['nickname']
-        ).save()
+        form = SevUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)  # 사용자 인증
+            login(request, user)  # 로그인
         return redirect('/app/')
 
-    return render(request, 'app/signup.html')
+    context = {
+        "form": SevUserCreationForm(initial={
+            'username': 'my_test_id'
+            , 'password1': 'waenva3nwe'
+            , 'password2': 'waenva3nwe'
+            , 'nickname': 'my_test_nick'
+            , 'email': 'test@nav.com'
+            , 'phone': '01044445555'
+        })
+    }
+    return render(request, 'app/signup.html', context)
 
 
 # 로그아웃
