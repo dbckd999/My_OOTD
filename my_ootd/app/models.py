@@ -3,24 +3,29 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from colorfield.fields import ColorField
+import re
 
 
+# SevUser 객체 생성 시 '-'없는 휴대전화 번호 검증
 def validate_phone_number(phone):
-    raise ValidationError(
-        _('%(value)s is not an even number'),
-        params={'value': phone},
-    )
+    pattern = re.compile(r"^01[0-1]\d{8}$")
+    if not pattern.match(phone):
+        raise ValidationError(
+            _('%(value)s is not an even number'),
+            params={'value': phone},
+        )
 
 
 # 서비스에 맞게 적용한 유저 클래스
 class SevUser(User):
+    nickname = models.CharField('nickname', null=False, max_length=20, default='init_nick')
     is_male = models.BooleanField('isMale', null=False)
-    phone = models.CharField('phone', max_length=13, validators=[validate_phone_number])
-    skin_color = ColorField(default='#FF0000')  # 피부색깔
+    phone = models.CharField('phone', max_length=11, validators=[validate_phone_number])
+    skin_color = ColorField(default='#FFFFFF')  # 피부색
 
 
 # 사용자의 옷 데이터를 관리합니다.
-# 사용자 고유번호는 장고에 기본 제공되는 _id 속성을 사용합니다.
+# 사용자 고유번호는 장고에 기본 제공되는 id 속성을 사용합니다.
 # 계정을 참고해서 CRD
 
 
