@@ -49,7 +49,7 @@ def create_cloth(request):
         # 두 칸은 각각 옷이름, 옷종류
         # 둘 중 하나라도 입력이 안 될 시 db에 저장 되지 않음
         if user.is_authenticated:
-            
+
             # 삭제 버튼을 통해 지우고싶은 옷 삭제 가능
             if 'delete_cloth' in request.POST:
                 delete_cloth = request.POST['delete_cloth']
@@ -64,7 +64,7 @@ def create_cloth(request):
 
             if post.cloth_name != "" and post.cloth_var != "":
                 post.save()
-        
+
         return redirect('/app/create')
     else:
         retrieve = User.objects.get(id=request.user.id)
@@ -75,3 +75,11 @@ def create_cloth(request):
 
         # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/clothes.html', userClothes_post)
+
+
+def login_page(request):
+    return render(request, 'app/login_page.html')
+
+
+def create_user(request):
+    return render(request, 'app/create_user.html')
