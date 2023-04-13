@@ -1,0 +1,24 @@
+<script>
+    // 특수문자 입력 방지
+    function characterCheck(obj){
+    var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+    // 허용할 특수문자는 위에서 삭제
+    // 띄어쓰기도 특수문자 처리
+    if( regExp.test(obj.value) ){
+        alert("특수문자는 입력하실수 없습니다.");
+        obj.value = obj.value.substring( 0 , obj.value.length - 1 ); // 입력한 특수문자 한자리 지움
+        }
+    }
+</script>
+
+<form method="post">
+    {% csrf_token %}
+
+    <input type="text" name="update_cloth_name" value="{{ update.cloth_name }}" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+    <input type="text" name="update_cloth_var" value="{{ update.cloth_var }}" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+    <input type="color"name="update_cloth_col_1" value="{{ update.cloth_col_1 }}" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+    <input type="color" name="update_cloth_col_2" value="{{ update.cloth_col_2 }}" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+    
+    <button type="submit" name="updateConfirm" class="btn btn-primary" value="{{ update.id }}">수정</button>
+
+</form>

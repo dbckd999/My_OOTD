@@ -11,5 +11,5 @@ urlpatterns = [
     path('sign-up', views.sign_up, name='sign_up'),
     path('login', auth_views.LoginView.as_view(template_name='app/login.html'), name='login'),
     path('logout', auth_views.LogoutView.as_view(template_name='app/main_page.html'), name='logout'),
-    path('create', views.create_cloth, name='create'),
+    path('mycloset', views.post_cloth, name='mycloset'),
 ]
