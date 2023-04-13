@@ -8,8 +8,11 @@
     <form method="post" action="{% url 'app:login' %}">
         {% csrf_token %}
         {% include "app/form_errors.html" %}
-        ID:<input type="text" name="username" id="username" value="{{ form.username.value|default_if_none:'' }}"><br>
-        PW:<input type="password" name="password" id="password" value="{{ form.password.value|default_if_none:'' }}"><br>
+
+        ID:{{ form.username }}<br>
+<!--        <input type="text" name="username" id="username" value="{{ form.username.value|default_if_none:'' }}"><br>-->
+        PW:{{ form.password }}<br>
+<!--        <input type="password" name="password" id="password" value="{{ form.password.value|default_if_none:'' }}"><br>-->
         <input type="submit" value="로그인">
     </form>
 <a href="{% url 'app:sign_up' %}">회원가입</a>
