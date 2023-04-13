@@ -18,7 +18,7 @@
     <input type="color"name="cloth_col_1" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="color" name="cloth_col_2" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     
-    <button type="submit" class="btn btn-primary">저장</button>
+    <button type="submit" name="create_cloth" class="btn btn-primary">저장</button>
 
     <div class="description">
         <p>1. 왼쪽부터 차례대로 옷 이름, 옷 종류, 색깔1, 색깔2 입니다<br /></p>
@@ -29,12 +29,14 @@
 
     <div class = "main">        
         {% for queryset in userdata %}        
+        {{ queryset.id }}<br />
         {{ queryset.username }}<br />
         {{ queryset.cloth_name }}<br />
         {{ queryset.cloth_var }}<br />
         {{ queryset.cloth_col_1 }}<br />
         {{ queryset.cloth_col_2 }}<br />
         <button type="submit" class="btn btn-primary" name="delete_cloth" value="{{ queryset.id }}">삭제</button>
+        <button type="submit" class="btn btn-primary" name="update_cloth" value="{{ queryset.id }}">수정</button>
         <hr/>
     </div>
     {% endfor %}

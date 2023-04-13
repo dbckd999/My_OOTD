@@ -53,6 +53,7 @@ class UserClothes(models.Model):
     cloth_var = models.CharField(max_length=30) # 옷 종류 (자켓, 셔츠 등)
     cloth_col_1 = models.CharField(max_length=30) # 옷 색깔 1
     cloth_col_2 = models.CharField(max_length=30) # 옷 색깔 2
+    #cloth_img = models.ImageField(null=True)
 
     def __str__(self):
         return f'{self.user_id} {self.username} {self.cloth_name} {self.cloth_var} {self.cloth_col_1} {self.cloth_col_2}'

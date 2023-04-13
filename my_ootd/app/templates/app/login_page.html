@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+	<title>로그인</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- 부트스트랩 css 사용 -->
+    <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'custom.css' %}">
+    <link rel="apple-touch-icon" href="경로/이미지파일명.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <style>
+        body { background-color:#e9ecef; font-family: LINESeedKR-Bd}
+    </style>
+</head>
+<body>
+	<div id="app">
+        <header id="header" style="height:250px" class="position-relative mb-5">
+            <div class="container-fluid w-100">
+                <div class="header position-absolute bottom-0 start-50 translate-middle-x" style="width:200px">
+                    <a class="navbar-brand" href="#">
+                        <img src="{% static 'icons/logo_icon.png' %}" alt="Logo" width="40" height="32" class="d-inline-block align-text-top">
+                        <h1 style="display:inline; font-family:SEBANG_Gothic_Bold; vertical-align: bottom">#My_OOTD</h1>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div id="container-fluid" class="position-relative">
+            <div class="user_idpw">
+                <div class="input-group p-2 px-4">
+                    <input type="text" class="form-control" placeholder="이메일" aria-label="이메일" aria-describedby="basic-addon1" >
+                </div>
+                <div class="input-group p-2 px-4">
+                    <input type="password" class="form-control" placeholder="비밀번호" aria-label="비밀번호" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="login_button p-2 px-4">
+                <button type="button" class="btn btn-dark w-100">Login</button>
+            </div>
+            <ul class="find_info row justify-content-center mt-4 w-100" style="list-style: none;">
+                <li class="col-4 text-center" style="float:left;">
+                    <a href="#">아이디 찾기</a>
+                </li>
+                <li class="col-4 text-center" style="float:left;">
+                    <a href="#">비밀번호 찾기</a>
+                </li>
+                <li class="col-4 text-center" style="float:left;">
+                    <a href="#">회원가입</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
