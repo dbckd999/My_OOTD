@@ -19,7 +19,7 @@ urlpatterns = [
 
 
 
-    path('login_page', views.login_page, name='login_page'),
-    path('create_user', views.create_user, name='create_user'),
+    path('login_page/', views.login_page, name='login_page'),
+    path('create_user/', views.create_user, name='create_user'),
 
 ]
