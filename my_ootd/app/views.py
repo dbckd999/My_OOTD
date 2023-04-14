@@ -27,12 +27,12 @@ def sign_up(request):
             login(request, user)  # 로그인
         return redirect('/app/')
 
-    # 기본값
+    # 개발용 기본값
     context = {
         "form": SevUserCreationForm(initial={
             'username': 'my_test_id'
-            , 'password1': 'waenva3nwe'
-            , 'password2': 'waenva3nwe'
+            # , 'password1': 'waenva3nwe'  # 입력 불가능
+            # , 'password2': 'waenva3nwe'  # 입력 불가능
             , 'nickname': 'my_test_nick'
             , 'email': 'test@nav.com'
             , 'phone': '01044445555'
