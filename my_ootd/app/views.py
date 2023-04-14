@@ -62,16 +62,17 @@ def post_cloth(request):
 
                 userClothes_update = UserClothes.objects.get(id=update_cloth)                
                 return render(request, 'app/cloth_update.html', {'update': userClothes_update})
-            elif 'create_cloth' in request.POST:            
+            elif 'create_cloth' in request.POST:          
                 post.user_id = User.objects.get(id=request.user.id)
                 post.username = request.user.get_full_name()
                 post.cloth_name = request.POST['cloth_name']
                 post.cloth_var = request.POST['cloth_var']
                 post.cloth_col_1 = request.POST['cloth_col_1']
                 post.cloth_col_2 = request.POST['cloth_col_2']
+                post.cloth_img = request.FILES['cloth_img']
 
-            if post.cloth_name != "" and post.cloth_var != "":
-                post.save()
+                if post.cloth_name != "" and post.cloth_var != "":
+                    post.save()
 
             # 수정 버튼을 통해 옷 정보 수정
             if 'updateConfirm' in request.POST:
@@ -83,9 +84,11 @@ def post_cloth(request):
                 cloth_update.cloth_name = request.POST['update_cloth_name']
                 cloth_update.cloth_var = request.POST['update_cloth_var']
                 cloth_update.cloth_col_1 = request.POST['update_cloth_col_1']
-                cloth_update.cloth_col_2 = request.POST['update_cloth_col_2']                
+                cloth_update.cloth_col_2 = request.POST['update_cloth_col_2']
+                cloth_update.cloth_img = request.FILES['update_cloth_img']
 
-                cloth_update.save()
+                if cloth_update.cloth_name != "" and cloth_update.cloth_var != "":
+                    cloth_update.save()
             
         return redirect('/app/mycloset')
     else:

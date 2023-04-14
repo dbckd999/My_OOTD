@@ -11,12 +11,13 @@
     }
 </script>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="text" name="cloth_var" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="color"name="cloth_col_1" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="color" name="cloth_col_2" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+    <input type="file" name="cloth_img">
     
     <button type="submit" name="create_cloth" class="btn btn-primary">저장</button>
 
@@ -24,6 +25,7 @@
         <p>1. 왼쪽부터 차례대로 옷 이름, 옷 종류, 색깔1, 색깔2 입니다<br /></p>
         <p></p>2. 내 옷에 대한 정보를 빈칸에 입력한 후 '저장' 버튼을 누르면 내 옷이 등록됩니다<br /></p>
         <p>3. 삭제하고 싶은 옷이 있으면 '삭제' 버튼을 통해 삭제하실 수 있습니다.<br /></p>
+        <p>4. 수정하고 싶은 옷이 있으면 '수정' 버튼을 통해 수정하실 수 있습니다.<br /></p>
         <hr/>
     </div>
 
@@ -35,6 +37,7 @@
         {{ queryset.cloth_var }}<br />
         {{ queryset.cloth_col_1 }}<br />
         {{ queryset.cloth_col_2 }}<br />
+        <img src="{{ queryset.cloth_img.url }}"><br />
         <button type="submit" class="btn btn-primary" name="delete_cloth" value="{{ queryset.id }}">삭제</button>
         <button type="submit" class="btn btn-primary" name="update_cloth" value="{{ queryset.id }}">수정</button>
         <hr/>
