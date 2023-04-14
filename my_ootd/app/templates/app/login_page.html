@@ -32,16 +32,22 @@
 
         <div id="container-fluid" class="position-relative">
             <div class="user_idpw">
-                <div class="input-group p-2 px-4">
-                    <input type="text" class="form-control" placeholder="이메일" aria-label="이메일" aria-describedby="basic-addon1" >
-                </div>
-                <div class="input-group p-2 px-4">
-                    <input type="password" class="form-control" placeholder="비밀번호" aria-label="비밀번호" aria-describedby="basic-addon1">
-                </div>
+                <form method="post" action="{% url 'app:login' %}">
+                    {% csrf_token %}
+                    {% include "app/form_errors.html" %}
+                    <div class="input-group p-2 px-4">
+                        <input type="text" name="{{ form.username.name }}" class="form-control" placeholder="아이디" aria-label="이메일" aria-describedby="basic-addon1" >
+                    </div>
+                    <div class="input-group p-2 px-4">
+                        <input type="password" name="{{ form.password.name }}" class="form-control" placeholder="비밀번호" aria-label="비밀번호" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="login_button p-2 px-4">
+<!--                    <button type="button" class="btn btn-dark w-100">Login</button>-->
+                        <input type="submit" class="btn btn-dark w-100" value="Login">
+                    </div>
+                </form>
             </div>
-            <div class="login_button p-2 px-4">
-                <button type="button" class="btn btn-dark w-100">Login</button>
-            </div>
+
             <ul class="find_info row justify-content-center mt-4 w-100" style="list-style: none;">
                 <li class="col-4 text-center" style="float:left;">
                     <a href="#">아이디 찾기</a>
