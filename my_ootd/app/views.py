@@ -53,7 +53,7 @@ def post_cloth(request):
         # UserClothes.objects.all().delete()
 
         post = UserClothes()
-        user = User()
+        user = SevUser()
         
         # "clothes.html" 색상 제외 input text 칸 2개
         # 두 칸은 각각 옷이름, 옷종류
@@ -73,8 +73,8 @@ def post_cloth(request):
                 userClothes_update = UserClothes.objects.get(id=update_cloth)                
                 return render(request, 'app/cloth_update.html', {'update': userClothes_update})
             elif 'create_cloth' in request.POST:          
-                post.user_id = User.objects.get(id=request.user.id)
-                post.username = request.user.get_full_name()
+                post.user_id = SevUser.objects.get(id=request.user.id)
+                post.username = user.get_full_name() # 닉네임 안 나오는 버그 있음
                 post.cloth_name = request.POST['cloth_name']
                 post.cloth_var = request.POST['cloth_var']
                 post.cloth_col_1 = request.POST['cloth_col_1']
@@ -89,8 +89,8 @@ def post_cloth(request):
                 cloth_id = request.POST['updateConfirm']
                 cloth_update = UserClothes.objects.get(id=cloth_id)
                 
-                cloth_update.user_id = User.objects.get(id=request.user.id)
-                cloth_update.username = request.user.get_full_name()          
+                cloth_update.user_id = SevUser.objects.get(id=request.user.id)
+                cloth_update.username = user.get_full_name()          
                 cloth_update.cloth_name = request.POST['update_cloth_name']
                 cloth_update.cloth_var = request.POST['update_cloth_var']
                 cloth_update.cloth_col_1 = request.POST['update_cloth_col_1']
@@ -102,7 +102,7 @@ def post_cloth(request):
             
         return redirect('/app/mycloset')
     else:
-        retrieve = User.objects.get(id=request.user.id)
+        retrieve = SevUser.objects.get(id=request.user.id)
         userClothes_post = {
             "user": request.user,
             "userdata": UserClothes.all_user_datas(UserClothes(), retrieve)

@@ -25,7 +25,6 @@ class SevUser(User):
     phone = models.CharField('phone', max_length=11, validators=[validate_phone_number])
     skin_color = ColorField(default='#FFFFFF')  # 피부색
 
-
 # 사용자의 옷 데이터를 관리합니다.
 # 사용자 고유번호는 장고에 기본 제공되는 id 속성을 사용합니다.
 # 계정을 참고해서 CRD
@@ -49,7 +48,7 @@ class SevUser(User):
 class UserClothes(models.Model):
     # tmp_userid = models.CharField(max_length=10) # 임시 계정
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE) # 유저 고유 번호
+    user_id = models.ForeignKey(SevUser, on_delete=models.CASCADE) # 유저 고유 번호
     username = models.CharField(max_length=50, null=True) # 유저이름
     cloth_name = models.CharField(max_length=50) # 옷 이름
     cloth_var = models.CharField(max_length=30) # 옷 종류 (자켓, 셔츠 등)
