@@ -7,10 +7,14 @@
 <body>
 <form action="{% url 'app:sign_up' %}" method="post">
     {% csrf_token %}
-    ID:<input type="text" name="username" value="my_test_id"><br>
-    PW:<input type="password" name="password" value="luhmvfhrn3"><br>
-    Nick<input type="text" name="nickname" value="my_test_nick"><br>
-    e-mail:<input type="email" name="email"><br>
+    ID:{{form.username}}<br>
+    PW:{{form.password1}}<br>
+    PW2:{{form.password2}}<br>
+    e-mail:{{form.email}}<br>
+    nick:{{form.nickname}}<br>
+    Gender:{{form.is_male}}<br>
+    phone:{{form.phone}}<br>
+    skin color:{{form.skin_color}}<br>
     <input type="submit" value="회원가입">
 </form>
 <a href="{% url 'app:root' %}">홈으로</a>

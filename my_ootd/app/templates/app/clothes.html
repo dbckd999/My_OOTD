@@ -38,6 +38,7 @@
         {{ queryset.cloth_col_1 }}<br />
         {{ queryset.cloth_col_2 }}<br />
         <img src="{{ queryset.cloth_img.url }}"><br />
+
         <button type="submit" class="btn btn-primary" name="delete_cloth" value="{{ queryset.id }}">삭제</button>
         <button type="submit" class="btn btn-primary" name="update_cloth" value="{{ queryset.id }}">수정</button>
         <hr/>
