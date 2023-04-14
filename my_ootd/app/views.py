@@ -11,7 +11,7 @@ def root(request):
     context = {
         # "user": request.user,
     }
-    return render(request, 'app/main_page.html', context)
+    return render(request, 'app/main.html', context)
 
 
 # 회원가입 https://docs.djangoproject.com/en/4.2/topics/auth/default/#how-to-log-a-user-in

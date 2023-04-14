@@ -10,16 +10,15 @@ urlpatterns = [
     # 회원가입 페이지
     path('sign-up', views.sign_up, name='sign_up'),
     path('login', auth_views.LoginView.as_view(
-        template_name='app/login_page.html'), name='login'),
+        template_name='app/login.html'), name='login'),
     path('logout', auth_views.LogoutView.as_view(
-        template_name='app/main_page.html'), name='logout'),
+        template_name='app/main.html'), name='logout'),
     path('mycloset', views.post_cloth, name='mycloset'),
 
 
 
 
 
-    path('login_page/', views.login_page, name='login_page'),
     path('create_user/', views.create_user, name='create_user'),
 
 ]
