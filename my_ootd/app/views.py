@@ -11,11 +11,11 @@ def root(request):
     context = {
         # "user": request.user,
     }
-    return render(request, 'app/main_page.html', context)
+    return render(request, 'app/main.html', context)
 
 
 # 회원가입 https://docs.djangoproject.com/en/4.2/topics/auth/default/#how-to-log-a-user-in
-# 폼 클래스 사용 https://wikidocs.net/71303#formspy
+# 폼 클래스 https://wikidocs.net/71303#formspy
 def sign_up(request):
     if request.method == 'POST':
         form = SevUserCreationForm(request.POST)
@@ -27,11 +27,12 @@ def sign_up(request):
             login(request, user)  # 로그인
         return redirect('/app/')
 
+    # 개발용 기본값
     context = {
         "form": SevUserCreationForm(initial={
             'username': 'my_test_id'
-            , 'password1': 'waenva3nwe'
-            , 'password2': 'waenva3nwe'
+            # , 'password1': 'waenva3nwe'  # 입력 불가능
+            # , 'password2': 'waenva3nwe'  # 입력 불가능
             , 'nickname': 'my_test_nick'
             , 'email': 'test@nav.com'
             , 'phone': '01044445555'
@@ -109,10 +110,6 @@ def post_cloth(request):
         }
         # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/clothes.html', userClothes_post)
-
-
-def login_page(request):
-    return render(request, 'app/login_page.html')
 
 
 def create_user(request):
