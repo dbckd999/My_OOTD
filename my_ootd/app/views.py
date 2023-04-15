@@ -5,11 +5,13 @@ from django.contrib.auth import authenticate, login
 from .models import UserClothes, SevUser
 from .forms import UserClothesForm, SevUserCreationForm
 
+from .weather import weather
 
-# 다른페이지 이동 편의로 만듦
+
 def root(request):
     context = {
         # "user": request.user,
+        "weather": weather()
     }
     return render(request, 'app/main.html', context)
 
