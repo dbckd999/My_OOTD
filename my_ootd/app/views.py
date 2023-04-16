@@ -5,17 +5,16 @@ from django.contrib.auth import authenticate, login
 from .models import UserClothes, SevUser
 from .forms import UserClothesForm, SevUserCreationForm
 
-from .weather import weather
+from .weather import weather, select_weather_icon_name
 
 
 def root(request):
-    if 'weather' not in request.session:
-        request.session['weather'] = weather()
+    # if ['weather', 'weather_icon_filename'] not in request.session:
+    res = weather()
+    request.session['weather'] = res
+    request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
 
-    context = {
-        # "user": request.user,
-        "weather": request.session['weather']
-    }
+    context = {}
     return render(request, 'app/main.html', context)
 
 
