@@ -33,19 +33,23 @@ nx = 90
 ny = 90
 base_date = time.strftime('%Y%m%d')
 # 최저기온: 2시, 최고기온: 2, 5, 8, 11시 갱신
-base_time = '0500'
+base_time = '0200'
 
 url += 'serviceKey=' + serviceKey + '&numOfRows=' + str(numOfRows) + '&pageNo=' + str(
     pageNo) + '&base_date=' + base_date + '&base_time=' + base_time + '&nx=' + str(nx) + '&ny=' + str(ny)
 
 
-# 오늘 기온, 최고, 최저기온, 강수확률, 풍속 딕셔너리를 반환합니다.
+# 오늘 [기온], 최고, 최저기온, 강수확률, 풍속 딕셔너리를 반환
 def weather() -> dict:
     cont = requests.get(url)
-    open('res.xml', 'w').write(cont.text)
-
     tree = ElementTree.fromstring(cont.text)
-    doc = {}
+    doc = {
+        # 'TMP': [],
+        'TMX': -999,
+        'TMN': 999,
+        'POP': -1,
+        'WSD': -1
+    }
 
     means = {
         'POP': '강수확률'
@@ -64,57 +68,62 @@ def weather() -> dict:
         , 'WSD': '풍속\t'
     }
 
-    # !! 시간별로 정렬되어 정보가 들어오지 않는다. 정렬 해야함 !!
-    for item in tree.iter('item'):
-        tag = item.find('category').text
-        # print(f"{means[tag]}\t {item.find('fcstValue').text}")
+    # 기온
+    # for item in tree.findall(f".//item[fcstDate='{base_date}'][category='TMP']"):
+    #     doc['TMP'].append(float(item.find('fcstValue').text))
 
-        if item.find('category').text in doc:
-            doc[tag].append(item.find('fcstValue').text)
+    # 최고 기온
+    doc['TMX'] = float(tree.find(f".//item[fcstDate='{base_date}'][category='TMX']").find('fcstValue').text)
+
+    # 최저 기온
+    doc['TMN'] = float(tree.find(f".//item[fcstDate='{base_date}'][category='TMN']").find('fcstValue').text)
+
+    # 강수확률
+    for item in tree.findall(f".//item[fcstDate='{base_date}'][category='POP']"):
+        if doc['POP'] < float(item.find('fcstValue').text):
+            doc['POP'] = float(item.find('fcstValue').text)
+
+    # 최고 풍속
+    for item in tree.findall(f".//item[fcstDate='{base_date}'][category='WSD']"):
+        if doc['WSD'] < float(item.find('fcstValue').text):
+            doc['WSD'] = float(item.find('fcstValue').text)
+
+    # 하늘상태(SKY) 코드 : 맑음(1), 구름많음(3), 흐림(4)
+    sky_stack = [0, 0, 0]
+    for item in tree.findall(f".//item[fcstDate='{base_date}'][category='SKY']"):
+        if int(item.find('fcstValue').text) == 1:
+            sky_stack[0] += 1
+        elif int(item.find('fcstValue').text) == 3:
+            sky_stack[1] += 1
+        elif int(item.find('fcstValue').text) == 4:
+            sky_stack[2] += 1
         else:
-            doc[tag] = [item.find('fcstValue').text]
-
-    # print(doc)
-
-    for li in doc:
-        print(li + ':' + str(doc[li]))
-    print()
-
-    # meta data
-    doc['metadata'] = {
-        'numOfRows': tree.find('.//numOfRows').text
-        , 'pageNo': tree.find('.//pageNo').text
-        , 'totalCount': tree.find('.//totalCount').text
-    }
-
-    # print(doc['metadata'])
-    return {
-        'TMP': max(list(map(int, doc['TMP'])))
-        , 'TMX': max(list(map(float, doc['TMX'])))
-        , 'TMN': max(list(map(float, doc['TMN'])))
-        , 'POP': max(list(map(int, doc['POP'])))
-        , 'WSD': max(list(map(float, doc['WSD'])))
-    }
+            print("Undefined SKY code")
+    doc['SKY_st'] = sky_stack
 
 
-def select_weather_icon():
-    file_name = [
-        'NB02.png',  # 구름조금
-        'NB03.png',  # 구름많음
-        'NB04.png',  # 흐림
-        'NB07.png',  # 소나기
-        'NB08.png',  # 비
-        'NB11.png',  # 눈
-        'NB12.png',  # 비 또는 눈
-        'NB13.png',  # 눈 또는 비
-        'NB14.png',  # 천둥번개
-        'NB15.png',  # 안개
-        'NB16.png',  # 황사
-        'NB17.png',  # 박무(엷은 안개)
-        'NB18.png',  # 연무
-        'NB20.png',  # 가끔(한때) 비 또는 비
-        'NB21.png',  # 가끔(한때) 눈 또는 눈
-        'NB22.png',  # 가끔(한때) 비, 또는 눈
-        'NB23.png'  # 가끔(한때) 눈 또는 비
-    ]
+    # 강수형태(PTY) 코드 : 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
+    pty_stack = [0, 0, 0]
+    for item in tree.findall(f".//item[fcstDate='{base_date}'][category='PTY']"):
+        pty_stack[int(item.find('fcstValue').text)] += 1
+    doc['PTY_st'] = pty_stack
 
+    return doc
+
+
+# 하늘상태(SKY) 코드 : 맑음, 구름많음, 흐림
+# 강수형태(PTY) 코드 : 없음, 비, 비/눈, 눈, 소나기
+def select_weather_icon_name(sky: list, pty: list) -> str:
+    icon_name = ''
+    # sky            # 맑음       # 구름많음   # 흐림
+    sky_icon_name = ['NB01.png', 'NB03.png', 'NB04.png']
+    # pty            # 비         # 비 또는 눈 # 눈 또는 비 # 눈       # 소나기
+    pty_icon_name = ['NB08.png', 'NB12.png', 'NB13.png', 'NB11.png', 'NB07.png']
+
+    if pty.index(max(pty)) == 0:
+        icon_name = sky_icon_name[sky.index(max(sky))]
+    else:
+        icon_name = pty_icon_name[pty.index(max(pty))]
+
+    print(icon_name)
+    return icon_name
