@@ -5,12 +5,16 @@ from django.contrib.auth import authenticate, login
 from .models import UserClothes, SevUser
 from .forms import UserClothesForm, SevUserCreationForm
 
+from .weather import weather, select_weather_icon_name
 
-# 다른페이지 이동 편의로 만듦
+
 def root(request):
-    context = {
-        # "user": request.user,
-    }
+    # if ['weather', 'weather_icon_filename'] not in request.session:
+    res = weather()
+    request.session['weather'] = res
+    request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
+
+    context = {}
     return render(request, 'app/main.html', context)
 
 
