@@ -9,9 +9,12 @@ from .weather import weather
 
 
 def root(request):
+    if 'weather' not in request.session:
+        request.session['weather'] = weather()
+
     context = {
         # "user": request.user,
-        "weather": weather()
+        "weather": request.session['weather']
     }
     return render(request, 'app/main.html', context)
 
