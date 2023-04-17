@@ -10,10 +10,12 @@
     <!-- 부트스트랩 css 사용 -->
     <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'custom.css' %}">
+    <link rel="stylesheet" href="{% static 'modal.css' %}">
     <link rel="apple-touch-icon" href="경로/이미지파일명.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
     <style>
     </style>
@@ -55,43 +57,69 @@
             <div class="dail_code container-fluid m-3 mx-2">
                 <h3 style="font-family: TheJamsil5Bold">데일리 코디</h3>
                 <div class="card">
-                    <img src="{% static 'image/daily_code.jpg' %}" class="card-img-top" alt="daily_code">
+                    <img src="{% static 'image/daily_code.jpg' %}" class="card-img-top" alt="daily_code" id="daily_code_img">
                     <div class="card-body row justify-content-around" style="font-family:Noto Sans KR;">
                         <a href="#" class="btn btn-secondary col mx-2" style="inline">스타일 등록하기</a>
                         <a href="#" class="btn btn-secondary col mx-2" style="inline">다시 추천하기</a>
                     </div>
                 </div>
             </div>
+            <div class="modal_overlay" id="modal_daily_code_img" style="z-index: 100;">
+                <div class="modal_window">
+                    <div class="modal_title">
+                        <div class="modal_title_side"></div>
+                        <div> 데일리 수정 </div>
+                        <div class="modal_title_side">
+                            <span id="close_modal">
+                                close
+                            </span>
+                        </div>                        
+                    </div>
+                    <div class="modal_daily_code_img_update">
+                        <img src="{% static 'image/style1.jpg' %}" class="card-img-top" alt="daily_code_to_update">
+                        <button type="button" class="btn btn-primary"  id="daily_code_img_to_update">수정</button>
+
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript" src="{% static 'modal.js' %}"></script>
             <hr class="m-3">
             <div class="my_closet container-fluid m-3 mx-2">
                 <h3 style="font-family: TheJamsil5Bold">내 옷장</h3>
                 <div class="clothes_category my-3" style="font-family:LINESeedKR-Bd; overflow-x:auto; white-space:nowrap;">
-                    <button type="button" class="btn btn-light" style=>모자</button>
-                    <button type="button" class="btn btn-light">아우터</button>
-                    <button type="button" class="btn btn-light">상의</button>
-                    <button type="button" class="btn btn-light">하의</button>
-                    <button type="button" class="btn btn-light">원피스</button>
-                    <button type="button" class="btn btn-light">신발</button>
-                    <button type="button" class="btn btn-light">악세사리</button>
+                    <button type="button" class="btn btn-light" id="btn_cap" style=>모자</button>
+                    <button type="button" class="btn btn-light" id="btn_outer">아우터</button>
+                    <button type="button" class="btn btn-light" id="btn_top">상의</button>
+                    <button type="button" class="btn btn-light" id="btn_pants">하의</button>
+                    <button type="button" class="btn btn-light" id="btn_dress">원피스</button>
+                    <button type="button" class="btn btn-light" id="btn_shoe">신발</button>
+                    <button type="button" class="btn btn-light" id="btn_accessory">악세사리</button>
                 </div>
                 <div class="top_clothes row row-cols-2 row-cols-md-2 g-4">
-                    <div class="col">
-                        <div class="card h-100">
-                        <img src="{% static 'image/tshirt1.jpg' %}" class="card-img-top" alt="top">
+                    {% for queryset in userdata %}
+                    <form method="post" enctype="multipart/form-data" >
+                        <div class="col">
+                            <div class="card h-100">
+                                    {% csrf_token %}
+                                    <img src="{{ queryset.cloth_img.url }}" class="card-img-top" alt="top" id="img_1" value="{{ queryset.id }}" >
+                            </div>
                         </div>
-                    </div>
-
+                    </form>
+                    {% endfor %}
+                    <!--
                     <div class="col">
                         <div class="card h-100">
                         <img src="{% static 'image/tshirt2.jpg' %}" class="card-img-top" alt="top">
                         </div>
                     </div>
+                    -->
                     <div class="col">
                         <div class="card h-100">
                         <img src="{% static 'icons/add_icon.png' %}" class="card-img-top img-thumbnail" alt="add_icon">
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript" src="{% static 'mycloset.js' %}"></script>
             </div>
             <hr class="m-3 my-2">
             <div class="my_style container-fluid m-3 mx-2 mb-5">

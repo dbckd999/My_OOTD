@@ -11,7 +11,7 @@
     }
 </script>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" action="{% url 'app:mycloset' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="text" name="cloth_var" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
@@ -20,6 +20,8 @@
     <input type="file" name="cloth_img">
     
     <button type="submit" name="create_cloth" class="btn btn-primary">저장</button>
+    <a href="{% url 'app:root' %}">홈으로</a>
+
 
     <div class="description">
         <p>1. 왼쪽부터 차례대로 옷 이름, 옷 종류, 색깔1, 색깔2 입니다<br /></p>
@@ -30,7 +32,7 @@
     </div>
 
     <div class = "main">        
-        {% for queryset in userdata %}        
+        {% for queryset in userdata %}
         {{ queryset.id }}<br />
         {{ queryset.username }}<br />
         {{ queryset.cloth_name }}<br />
