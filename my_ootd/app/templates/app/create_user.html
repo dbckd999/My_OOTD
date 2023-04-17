@@ -13,8 +13,68 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
+    <style>
+        h1,h2,h3,h4,h5 { font-family : LINESeedKR-Bd}
+        input { font-family:Noto Sans KR}
+    </style>
+
 </head>
 <body>
-	<!-- 여기에 컨텐츠를 추가하세요 -->
+	<div id="app">
+        <header id="header">
+            <nav class="navbar bg-white border-bottom">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <img src="{% static 'icons/logo_icon.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        <h3 style="display:inline; font-family:SEBANG_Gothic_Bold">#My_OOTD</h3>
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <div id="container">
+            <div class="container-fluid p-4">
+                <h3 class="my-2 mb-4">회원가입</h3>
+                    <div class="Input_ID my-4">
+                        <label for="InputId" class="form-label" style="margin : 0"><h5>아이디</h5></label>
+                        <input type="text" class="form-control" id="InputId" placeholder="아이디 입력" >
+                    </div>
+                    <div class="Input_PW my-4">
+                        <label for="InputPW" class="form-label" style="margin : 0"><h5>비밀번호</h5></label>
+                        <input type="password" class="form-control" id="InputPW" placeholder="비밀번호 입력" >
+                    </div>
+                    <div class="Input_PW_check my-4">
+                        <label for="InputPwCheck" class="form-label" style="margin : 0"><h5>비밀번호 확인</h5></label>
+                        <input type="password" class="form-control" id="InputPwCheck" placeholder="비밀번호 입력" >
+                    </div>
+                    <div class="Input_NICK my-4">
+                        <label for="InputNick" class="form-label" style="margin : 0"><h5>닉네임</h5></label>
+                        <input type="text" class="form-control" id="InputNick" placeholder="닉네임 입력" >
+                    </div>
+                    <div class="Input_PC my-4">
+                        <label for="InputPersonal" class="form-label" style="margin : 0"><h5>퍼스널컬러</h5></label>
+                        <select class="form-select">
+                            <option selected value="0">선택 안함</option>
+                            <option value="1">봄라이트</option>
+                            <option value="2">봄클리어</option>
+                            <option value="3">봄스트롱</option>
+                            <option value="4">여름라이트</option>
+                            <option value="5">여름클리어</option>
+                            <option value="6">여름뮤트</option>
+                            <option value="7">가을뮤트</option>
+                            <option value="8">가을딥</option>
+                            <option value="9">가을다크</option>
+                            <option value="10">겨울스트롱</option>
+                            <option value="11">겨울딥</option>
+                            <option value="12">겨울다크</option>
+                        </select>
+                    </div>
+                    <div class="join_button">
+                        <input type="submit" class="btn btn-dark w-100" value="가입하기">
+                    </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
