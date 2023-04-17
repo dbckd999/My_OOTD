@@ -11,7 +11,7 @@
     }
 </script>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" action="{% url 'app:update_cloth' %}"enctype="multipart/form-data">
     {% csrf_token %}
 
     <input type="text" name="update_cloth_name" value="{{ update.cloth_name }}" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" required/>
@@ -20,6 +20,7 @@
     <input type="color" name="update_cloth_col_2" value="{{ update.cloth_col_2 }}" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" required/>
     <input type="file" name="update_cloth_img" required/>
     
+    <input type="hidden" name="previouspage" value="{{ request.path }}">
     <button type="submit" name="updateConfirm" class="btn btn-primary" value="{{ update.id }}">수정</button>
 
 </form>

@@ -8,9 +8,12 @@ from .forms import UserClothesForm, SevUserCreationForm
 
 # 다른페이지 이동 편의로 만듦
 def root(request):
+    
     context = {
         # "user": request.user,
+        "userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
     }
+
     return render(request, 'app/main.html', context)
 
 
@@ -53,9 +56,9 @@ def post_cloth(request):
         # db 전체 삭제
         # UserClothes.objects.all().delete()
 
-        post = UserClothes()
-        user = SevUser()
-        
+        post = UserClothes()        
+        user = SevUser()        
+
         # "clothes.html" 색상 제외 input text 칸 2개
         # 두 칸은 각각 옷이름, 옷종류
         # 둘 중 하나라도 입력이 안 될 시 db에 저장 되지 않음
@@ -73,7 +76,7 @@ def post_cloth(request):
 
                 userClothes_update = UserClothes.objects.get(id=update_cloth)                
                 return render(request, 'app/cloth_update.html', {'update': userClothes_update})
-            elif 'create_cloth' in request.POST:          
+            elif 'create_cloth' in request.POST:           
                 post.user_id = SevUser.objects.get(id=request.user.id)
                 post.username = user.get_full_name() # 닉네임 안 나오는 버그 있음
                 post.cloth_name = request.POST['cloth_name']
@@ -81,35 +84,42 @@ def post_cloth(request):
                 post.cloth_col_1 = request.POST['cloth_col_1']
                 post.cloth_col_2 = request.POST['cloth_col_2']
                 post.cloth_img = request.FILES.get('cloth_img')
-
+            
                 if post.cloth_name != "" and post.cloth_var != "" and post.cloth_img != None:
                     post.save()
 
-            # 수정 버튼을 통해 옷 정보 수정
-            if 'updateConfirm' in request.POST:
-                cloth_id = request.POST['updateConfirm']
-                cloth_update = UserClothes.objects.get(id=cloth_id)
-                
-                cloth_update.user_id = SevUser.objects.get(id=request.user.id)
-                cloth_update.username = user.get_full_name()          
-                cloth_update.cloth_name = request.POST['update_cloth_name']
-                cloth_update.cloth_var = request.POST['update_cloth_var']
-                cloth_update.cloth_col_1 = request.POST['update_cloth_col_1']
-                cloth_update.cloth_col_2 = request.POST['update_cloth_col_2']
-                cloth_update.cloth_img = request.FILES.get('update_cloth_img')
-
-                if cloth_update.cloth_name != "" and cloth_update.cloth_var != "" and cloth_update.cloth_img != None:
-                    cloth_update.save()
-            
         return redirect('/app/mycloset')
     else:
         retrieve = SevUser.objects.get(id=request.user.id)
         userClothes_post = {
             "user": request.user,
-            "userdata": UserClothes.all_user_datas(UserClothes(), retrieve)
+            "userdata": UserClothes.all_user_datas(UserClothes(), retrieve),
         }
         # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/clothes.html', userClothes_post)
+
+def update_cloth(request):
+
+    if request.method == 'POST':
+        user = SevUser()
+    # 수정 버튼을 통해 옷 정보 수정
+        if 'updateConfirm' in request.POST:
+            cloth_id = request.POST['updateConfirm']
+            cloth_update = UserClothes.objects.get(id=cloth_id)   
+
+            cloth_update.user_id = SevUser.objects.get(id=request.user.id)
+            cloth_update.username = user.get_full_name()          
+            cloth_update.cloth_name = request.POST['update_cloth_name']
+            cloth_update.cloth_var = request.POST['update_cloth_var']
+            cloth_update.cloth_col_1 = request.POST['update_cloth_col_1']
+            cloth_update.cloth_col_2 = request.POST['update_cloth_col_2']
+            cloth_update.cloth_img = request.FILES.get('update_cloth_img')
+            
+            if cloth_update.cloth_name != "" and cloth_update.cloth_var != "" and cloth_update.cloth_img != None:
+                cloth_update.save()
+        
+        previouspage = request.POST.get('previouspage', '/')
+        return redirect(previouspage)
 
 
 def create_user(request):
