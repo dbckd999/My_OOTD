@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
@@ -10,13 +10,22 @@ from .weather import weather, select_weather_icon_name
 
 def root(request):
     # if ['weather', 'weather_icon_filename'] not in request.session:
+     
+    sevuser = SevUser()
+    
     res = weather()
     request.session['weather'] = res
     request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
 
-    context = {
+    try:
+        context = {        
         "userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
         }
+    except(SevUser.DoesNotExist):
+        context = {        
+        
+        }       
+        
     return render(request, 'app/main.html', context)
 
 
