@@ -13,4 +13,6 @@ urlpatterns = [
     path('mycloset', views.post_cloth, name='mycloset'),
     path('update_cloth', views.update_cloth, name='update_cloth'),
     path('create_user/', views.create_user, name='create_user'),
+
+    path('test/', views.test, name='test'),
 ]
