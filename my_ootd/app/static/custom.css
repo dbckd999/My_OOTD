@@ -20,6 +20,7 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR&display=swap');
+/* font-family:Noto Sans KR */
 
 a {
     text-decoration: none;
@@ -49,4 +50,12 @@ a {
     left: 0;
     right: 0;
 
+}
+
+#app .form-control {
+    border-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1;
 }

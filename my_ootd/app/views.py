@@ -7,6 +7,9 @@ from .forms import UserClothesForm, SevUserCreationForm
 
 from .weather import weather, select_weather_icon_name
 
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseBadRequest, JsonResponse
+
 
 def root(request):
     # if ['weather', 'weather_icon_filename'] not in request.session:
@@ -136,3 +139,9 @@ def update_cloth(request):
 
 def create_user(request):
     return render(request, 'app/create_user.html')
+
+
+@csrf_exempt
+def test(request):
+    if request.method == 'POST':
+        return JsonResponse({'context': 'todos'})
