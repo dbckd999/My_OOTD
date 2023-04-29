@@ -22,10 +22,10 @@ def root(request):
 
     try:
         context = {        
-        "userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
+            "userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
         }
-    except(SevUser.DoesNotExist):
-        context = {        
+    except SevUser.DoesNotExist:
+        context = {
         
         }       
         

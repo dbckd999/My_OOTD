@@ -48,19 +48,19 @@ class SevUser(User):
 class UserClothes(models.Model):
     # tmp_userid = models.CharField(max_length=10) # 임시 계정
 
-    user_id = models.ForeignKey(SevUser, on_delete=models.CASCADE) # 유저 고유 번호
-    username = models.CharField(max_length=50, null=True) # 유저이름
-    cloth_name = models.CharField(max_length=50) # 옷 이름
-    cloth_var = models.CharField(max_length=30) # 옷 종류 (자켓, 셔츠 등)
-    cloth_col_1 = models.CharField(max_length=30) # 옷 색깔 1
-    cloth_col_2 = models.CharField(max_length=30) # 옷 색깔 2
+    user_id = models.ForeignKey(SevUser, on_delete=models.CASCADE)  # 유저 고유 번호
+    username = models.CharField(max_length=50, null=True)  # 유저이름
+    cloth_name = models.CharField(max_length=50)  # 옷 이름
+    cloth_var = models.CharField(max_length=30)  # 옷 종류 (자켓, 셔츠 등)
+    cloth_col_1 = models.CharField(max_length=30)  # 옷 색깔 1
+    cloth_col_2 = models.CharField(max_length=30)  # 옷 색깔 2
 
     def upload_cloth_img(instance, filename):
-            upload_to = ""
-            uuid_name = uuid4().hex
-            extension = os.path.splitext(filename)[-1].lower()
+        upload_to = ""
+        uuid_name = uuid4().hex
+        extension = os.path.splitext(filename)[-1].lower()
 
-            return ''.join([upload_to, uuid_name + extension])
+        return ''.join([upload_to, uuid_name + extension])
     
     cloth_img = models.ImageField(null=True, upload_to=upload_cloth_img, blank=True) # 옷 사진
 
@@ -70,7 +70,16 @@ class UserClothes(models.Model):
     def all_user_datas(self, id):
         datas = []
 
-        for data in UserClothes.objects.filter(user_id = id):
-            datas.append({'id': data.id, 'userID': str(data.user_id), 'username': str(data.username), 'cloth_name': str(data.cloth_name), 'cloth_var': str(data.cloth_var), 'cloth_col_1': str(data.cloth_col_1), 'cloth_col_2': str(data.cloth_col_2), 'cloth_img': data.cloth_img})
+        for data in UserClothes.objects.filter(user_id=id):
+            datas.append({
+                'id': data.id,
+                'userID': str(data.user_id),
+                'username': str(data.username),
+                'cloth_name': str(data.cloth_name),
+                'cloth_var': str(data.cloth_var),
+                'cloth_col_1': str(data.cloth_col_1),
+                'cloth_col_2': str(data.cloth_col_2),
+                'cloth_img': data.cloth_img
+            })
         
         return datas
