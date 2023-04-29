@@ -9,6 +9,8 @@ from .weather import weather, select_weather_icon_name
 
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse
+import random
 
 
 def root(request):
@@ -141,7 +143,42 @@ def create_user(request):
     return render(request, 'app/create_user.html')
 
 
+# ajax 테스트
 @csrf_exempt
 def test(request):
     if request.method == 'POST':
-        return JsonResponse({'context': 'todos'})
+        data = request.POST.get('name')
+        print(data)
+        return cloth_one_recommend(cloth_type=data, weather='', request=request)
+
+
+# 옷 하나 추천
+def cloth_one_recommend(cloth_type: str, weather, request):
+    """
+    :param request:
+    :param cloth_type: 쿼리 시 사용할 옷의 종류(영어)
+    :param weather: 날씨. 온도값
+    1. 사용자의 퍼스널컬러 데이터 가져오기
+    2. 퍼스널컬러 배열 중 하나 선택
+    3. +날씨 고려해 긴팔/짧은팔 추천
+    :return: 4. 색상값 중 가장 가까운 옷 선택
+    """
+    # print(cloth_type)
+    # 임시 로직
+    cloth_len = len(UserClothes.objects.all())
+    if cloth_len is not 0:
+        color_pick = random.randrange(0, cloth_len)
+        cloth = UserClothes.objects.filter(user_id=request.user.id)[color_pick]
+        return HttpResponse('ok', status=200)
+    else:
+        return HttpResponse('None', status=200)
+
+
+# 옷 전부 추천
+def cloth_all_recommend():
+    pass
+
+
+# 추천 결과 저장
+def save_my_style():
+    pass
