@@ -66,13 +66,15 @@
                     <img src="{% static 'image/daily_code.jpg' %}" class="card-img-top" alt="daily_code" id="daily_code_img">
                     <div class="card-body row justify-content-around" style="font-family:Noto Sans KR;">
                         <a href="#" class="btn btn-secondary col mx-2" style="inline">스타일 등록하기</a>
-                        <a id="re_rcm" href="#" class="btn btn-secondary col mx-2" style="inline">다시 추천하기</a>
+                        <button id="re_rcm" class="btn btn-secondary col mx-2" style="inline">다시 추천하기</button>
                         <script>
                             $('#re_rcm').on('click', ()=>{
                                 $.ajax({
                                     type: 'POST',
                                     url: '{% url 'app:test' %}',
-                                    data: 'test',
+                                    data: {
+                                        'name': 'top',
+                                    },
                                     success:(data)=>{
                                         console.log(data)
                                     },
