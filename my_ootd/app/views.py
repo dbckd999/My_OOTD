@@ -113,8 +113,8 @@ def post_cloth(request):
         # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/clothes.html', userClothes_post)
 
-def update_cloth(request):
 
+def update_cloth(request):
     if request.method == 'POST':
         user = SevUser()
     # 수정 버튼을 통해 옷 정보 수정
