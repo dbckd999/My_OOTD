@@ -14,7 +14,14 @@
 <form method="post" action="{% url 'app:mycloset' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
-    <input type="text" name="cloth_var" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+    <!--<input type="text" name="cloth_var" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">-->
+    <select name="cloth_var">
+        <option value="cap">모자</option>
+        <option value="outer">아우터</option>
+        <option value="top">상의</option>
+        <option value="pants">바지</option>
+        <option value="accessory">악세사리</option>
+    </select>
     <input type="color"name="cloth_col_1" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="color" name="cloth_col_2" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="file" name="cloth_img">
@@ -33,8 +40,6 @@
 
     <div class = "main">        
         {% for queryset in userdata %}
-        {{ queryset.id }}<br />
-        {{ queryset.username }}<br />
         {{ queryset.cloth_name }}<br />
         {{ queryset.cloth_var }}<br />
         {{ queryset.cloth_col_1 }}<br />
