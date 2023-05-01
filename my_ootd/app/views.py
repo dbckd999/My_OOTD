@@ -122,19 +122,26 @@ def update_cloth(request):
     # 수정 버튼을 통해 옷 정보 수정
         if 'updateConfirm' in request.POST:
             cloth_id = request.POST['updateConfirm']
-            cloth_update = UserClothes.objects.get(id=cloth_id)   
+            cloth_update = UserClothes.objects.get(id=cloth_id)
+
+            cloth_img_tmp = cloth_update.cloth_img
 
             cloth_update.user_id = SevUser.objects.get(id=request.user.id)
             cloth_update.username = user.get_full_name()          
             cloth_update.cloth_name = request.POST['update_cloth_name']
             cloth_update.cloth_var = request.POST['update_cloth_var']
             cloth_update.cloth_col_1 = request.POST['update_cloth_col_1']
-            cloth_update.cloth_col_2 = request.POST['update_cloth_col_2']
+            cloth_update.cloth_col_2 = request.POST['update_cloth_col_2']            
             cloth_update.cloth_img = request.FILES.get('update_cloth_img')
-            
-            if cloth_update.cloth_name != "" and cloth_update.cloth_var != "" and cloth_update.cloth_img != None:
-                cloth_update.save()
-        
+
+            if cloth_update.cloth_name != "" and cloth_update.cloth_var != "":
+                if cloth_update.cloth_img == None:
+                    # 사진을 바꾸지 않으면 이전 사진 파일 그대로 사용
+                    cloth_update.cloth_img = cloth_img_tmp
+                    cloth_update.save() 
+                else:
+                    cloth_update.save()
+ 
         previouspage = request.POST.get('previouspage', '/')
         return redirect(previouspage)
 
