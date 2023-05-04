@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout', auth_views.LogoutView.as_view(template_name='app/main.html'), name='logout'),
     path('mycloset', views.post_cloth, name='mycloset'),
     path('update_cloth', views.update_cloth, name='update_cloth'),
-    path('create_user/', views.create_user, name='create_user'),
+    path('create_user', views.create_user, name='create_user'),
 
-    path('test/', views.test, name='test'),
+    path('test', views.test, name='test'),
 ]
