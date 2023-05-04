@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.http import HttpResponse
 import random
+import json
 
 
 def root(request):
@@ -45,7 +46,7 @@ def sign_up(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)  # 사용자 인증
             login(request, user)  # 로그인
-        return redirect('/app/')
+        return redirect('/')
 
     # 개발용 기본값
     context = {
@@ -105,7 +106,7 @@ def post_cloth(request):
                 if post.cloth_name != "" and post.cloth_var != "" and post.cloth_img != None:
                     post.save()
 
-        return redirect('/app/mycloset')
+        return redirect('/mycloset')
     else:
         retrieve = SevUser.objects.get(id=request.user.id)
         userClothes_post = {
@@ -147,13 +148,12 @@ def create_user(request):
 @csrf_exempt
 def test(request):
     if request.method == 'POST':
-        data = request.POST.get('name')
-        print(data)
-        return cloth_one_recommend(cloth_type=data, weather='', request=request)
+        res = json.dumps(cloth_all_recommend(request=request))
+        return HttpResponse(res)
 
 
 # 옷 하나 추천
-def cloth_one_recommend(cloth_type: str, weather, request):
+def cloth_recommend(cloth_type: str, request) -> UserClothes or None:
     """
     :param request:
     :param cloth_type: 쿼리 시 사용할 옷의 종류(영어)
@@ -163,20 +163,26 @@ def cloth_one_recommend(cloth_type: str, weather, request):
     3. +날씨 고려해 긴팔/짧은팔 추천
     :return: 4. 색상값 중 가장 가까운 옷 선택
     """
-    # print(cloth_type)
-    # 임시 로직
-    cloth_len = len(UserClothes.objects.all())
+    cloth_len = len(UserClothes.objects.filter(cloth_var=cloth_type))
     if cloth_len is not 0:
         color_pick = random.randrange(0, cloth_len)
-        cloth = UserClothes.objects.filter(user_id=request.user.id)[color_pick]
-        return HttpResponse('ok', status=200)
+        cloth = UserClothes.objects.filter(user_id=request.user.id, cloth_var=cloth_type)[color_pick]
+        return cloth
     else:
-        return HttpResponse('None', status=200)
+        return None
 
 
-# 옷 전부 추천
-def cloth_all_recommend():
-    pass
+# 코디 추천 결과 이미지 이름배열 반환
+def cloth_all_recommend(request) -> dict:
+    cody = dict()
+    category = ('top', 'pants', 'outer', 'shoes', 'accessory')
+
+    for c in category:
+        cloth = cloth_recommend(c, request)
+        if cloth is not None:
+            cody[c] = str(cloth.cloth_img)
+
+    return cody
 
 
 # 추천 결과 저장
