@@ -1,6 +1,7 @@
 // 버튼 클릭 시 사진이 하나만 바뀌는 현상 있음
 
 // 상의 (test)
+/*
 $('#btn_top').click(function(){
     let imgurl = "/static/image/tshirt1.jpg"
     $.ajax({
@@ -29,3 +30,4 @@ $('#btn_pants').click(function(){
         }
     })
 })
+*/
