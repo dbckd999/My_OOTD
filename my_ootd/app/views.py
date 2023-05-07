@@ -1,14 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.db import IntegrityError
 
-from .models import UserClothes, SevUser
+from .models import UserClothes, SevUser, CodyLog
 from .forms import UserClothesForm, SevUserCreationForm
 
 from .weather import weather, select_weather_icon_name
 
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponseBadRequest, JsonResponse
 from django.http import HttpResponse
 import random
 import json
@@ -26,12 +25,13 @@ def root(request):
     try:
         context = {        
             "userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
+            "cody": cloth_all_recommend(request)
         }
     except SevUser.DoesNotExist:
         context = {
         
-        }       
-        
+        }
+
     return render(request, 'app/main.html', context)
 
 
@@ -151,9 +151,9 @@ def create_user(request):
     return render(request, 'app/create_user.html')
 
 
-# ajax 테스트
+# 다시 추천하기 버튼 누를 때 호출
 @csrf_exempt
-def test(request):
+def retry_recommend_cody(request):
     if request.method == 'POST':
         res = json.dumps(cloth_all_recommend(request=request))
         return HttpResponse(res)
@@ -173,6 +173,7 @@ def cloth_recommend(cloth_type: str, request) -> UserClothes or None:
     cloth_len = len(UserClothes.objects.filter(cloth_var=cloth_type))
     if cloth_len is not 0:
         color_pick = random.randrange(0, cloth_len)
+        print(color_pick)
         cloth = UserClothes.objects.filter(user_id=request.user.id, cloth_var=cloth_type)[color_pick]
         return cloth
     else:
@@ -182,16 +183,35 @@ def cloth_recommend(cloth_type: str, request) -> UserClothes or None:
 # 코디 추천 결과 이미지 이름배열 반환
 def cloth_all_recommend(request) -> dict:
     cody = dict()
+    ids = list()
     category = ('top', 'pants', 'outer', 'shoes', 'accessory')
 
     for c in category:
         cloth = cloth_recommend(c, request)
         if cloth is not None:
             cody[c] = str(cloth.cloth_img)
-
+            ids.append(cloth.id)
+        if cloth is None:
+            ids.append(None)
+    request.session['cody_id'] = ids
     return cody
 
 
 # 추천 결과 저장
-def save_my_style():
-    pass
+@csrf_exempt
+def save_my_style(request):
+    cody = request.session['cody_id']
+    print(cody)
+    c = CodyLog()
+    c.user_id = request.user
+    c.top = UserClothes.objects.get(id=cody[0]) if cody[0] is not None else None
+    c.pants = UserClothes.objects.get(id=cody[1]) if cody[1] is not None else None
+    c.outer = UserClothes.objects.get(id=cody[2]) if cody[2] is not None else None
+    c.shoes = UserClothes.objects.get(id=cody[3]) if cody[3] is not None else None
+    c.accessory = UserClothes.objects.get(id=cody[4]) if cody[4] is not None else None
+
+    try:
+        c.save()
+        return HttpResponse('Saved', status=200)
+    except IntegrityError as e:
+        return HttpResponse(e, status=409)

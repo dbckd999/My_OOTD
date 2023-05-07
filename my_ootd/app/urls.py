@@ -14,5 +14,7 @@ urlpatterns = [
     path('update_cloth', views.update_cloth, name='update_cloth'),
     path('create_user', views.create_user, name='create_user'),
 
-    path('test', views.test, name='test'),
+    # ajax
+    path('retry_recommend_cody', views.retry_recommend_cody, name='retry_recommend_cody'),
+    path('save_my_style', views.save_my_style, name='save_my_style'),
 ]

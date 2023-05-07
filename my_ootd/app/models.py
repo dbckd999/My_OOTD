@@ -83,3 +83,16 @@ class UserClothes(models.Model):
             })
         
         return datas
+
+
+class CodyLog(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='_user_id')
+    top = models.ForeignKey(UserClothes, on_delete=models.CASCADE, related_name='_top', null=True)
+    pants = models.ForeignKey(UserClothes, on_delete=models.CASCADE, related_name='_pants', null=True)
+    outer = models.ForeignKey(UserClothes, on_delete=models.CASCADE, related_name='_outer', null=True)
+    shoes = models.ForeignKey(UserClothes, on_delete=models.CASCADE, related_name='_shoes', null=True)
+    accessory = models.ForeignKey(UserClothes, on_delete=models.CASCADE, related_name='_accessory', null=True)
+
+    # 중복방지
+    class Meta:
+        unique_together = [["top", "pants", "outer", "shoes", "accessory"]]
