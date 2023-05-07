@@ -61,20 +61,57 @@
             </div>
             <hr class="m-3">
             <div class="dail_code container-fluid m-3 mx-2">
-                <h3 style="font-family: TheJamsil5Bold"><a class="navbar-brand" href="#">데일리 코디</h3></a>
+                <h3 style="font-family: TheJamsil5Bold"><a class="navbar-brand" href="#">데일리 코디</a></h3>
                 <div class="card">
-                    <img src="{% static 'image/daily_code.jpg' %}" class="card-img-top" alt="daily_code" id="daily_code_img">
+<!--                <img src="{% static 'image/daily_code.jpg' %}" class="card-img-top" alt="daily_code" id="daily_code_img">-->
+                    {% if cody.top %}
+                    <img src="/media/{{cody.top}}" id="top" class="card-img-top" alt="daily_code">
+                    {% endif %}
+                    {% if cody.pants %}
+                    <img src="/media/{{cody.pants}}" id="pants" class="card-img-top" alt="daily_code">
+                    {% endif %}
+                    {% if cody.outer %}
+                    <img src="/media/{{cody.outer}}" id="outer" class="card-img-top" alt="daily_code">
+                    {% endif %}
+                    {% if cody.shoes %}
+                    <img src="/media/{{cody.shoes}}" id="shoes" class="card-img-top" alt="daily_code">
+                    {% endif %}
+                    {% if cody.accessory %}
+                    <img src="/media/{{cody.accessory}}" id="acc" class="card-img-top" alt="daily_code">
+                    {% endif %}
+
                     <div class="card-body row justify-content-around" style="font-family:Noto Sans KR;">
-                        <a href="#" class="btn btn-secondary col mx-2" style="inline">스타일 등록하기</a>
+                        <button id="save_mystyle" class="btn btn-secondary col mx-2" style="inline">스타일 등록하기</button>
+                        <script>
+                            $('#save_mystyle').on('click', ()=>{
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '{% url 'app:save_my_style' %}',
+                                    data: {},
+                                    success:(msg)=>{
+                                        console.log(msg);
+                                    },
+                                    error: (xhr, errmsg, err)=>{
+                                        console.log(xhr.status + ": " + xhr.responseText);
+                                    }
+                                })
+                            })
+                        </script>
                         <button id="re_rcm" class="btn btn-secondary col mx-2" style="inline">다시 추천하기</button>
                         <script>
                             $('#re_rcm').on('click', ()=>{
                                 $.ajax({
                                     type: 'POST',
-                                    url: '{% url 'app:test' %}',
+                                    url: '{% url 'app:retry_recommend_cody' %}',
                                     data: {},
                                     success:(data)=>{
-                                        console.log(data)
+                                        var res = JSON.parse(data);
+                                        m = '/media/'
+                                        $('#top').attr('src', res.top ? m + res.top : $('#top').attr('src'));
+                                        $('#pants').attr('src', res.pants ? m + res.pants : $('#pants').attr('src'));
+                                        $('#outer').attr('src', res.outer ? m + res.outer : $('#outer').attr('src'));
+                                        $('#shoes').attr('src', res.shoes ? m + res.shoes : $('#shoes').attr('src'));
+                                        $('#acc').attr('src', res.accessory ? m + res.accessory : $('#acc').attr('src'));
                                     },
                                     error: (xhr, errmsg, err)=>{
                                         console.log(xhr.status + ": " + xhr.responseText);
