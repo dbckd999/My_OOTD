@@ -11,11 +11,10 @@
     }
 </script>
 
-<form method="post" action="{% url 'app:update_cloth' %}"enctype="multipart/form-data">
+<form method="post" action="{% url 'app:update_cloth' %}" enctype="multipart/form-data">
     {% csrf_token %}
 
     <input type="text" name="update_cloth_name" value="{{ update.cloth_name }}" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" required/>
-    <!--<input type="text" name="update_cloth_var" value="{{ update.cloth_var }}" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" required/>-->    
     <select name="update_cloth_var" required>
         <option value="cap">모자</option>
         <option value="outer">아우터</option>
