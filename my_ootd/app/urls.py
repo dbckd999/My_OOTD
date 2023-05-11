@@ -13,6 +13,7 @@ urlpatterns = [
     path('mycloset', views.post_cloth, name='mycloset'),
     path('update_cloth', views.update_cloth, name='update_cloth'),
     path('create_user', views.create_user, name='create_user'),
+    path('color_match_test', views.get_close_color, name='color_match_test'),
 
     # ajax
     path('retry_recommend_cody', views.retry_recommend_cody, name='retry_recommend_cody'),

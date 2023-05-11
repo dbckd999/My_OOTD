@@ -1,0 +1,23 @@
+<p>내 옷</p>
+{% for queryset in userdata %}
+        {{ queryset.cloth_name }}<br />
+        {{ queryset.cloth_col_1 }}<br />
+    {% endfor %}
+
+<p>내 피부색 RGB</p>
+
+<form method="post" action="{% url 'app:color_match_test' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="R">
+    <input type="text" name="G">
+    <input type="text" name="B">
+
+    <button type="submit" name="mycolor" class="btn btn-primary">123</button>
+
+<p>내 피부와 비슷한 색</p>
+<p>위에서 아래로 갈 수록 내 피부색과 거리가 멈</p>
+<p>첫번째 거리, 두번째 색, 세번째 옷이름</p>
+<p>콘솔에서 더 자세하게 확인</p>
+    {% for i in colormatch %}
+            {{ i }}<br />
+        {% endfor %}
