@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+
 {% comment %} 
 템플릿 상속 사용법:
 1. {% extends 'base.html' %}를 제일 처음 라인에 작성
@@ -5,7 +7,6 @@
 3. {% block content %}과 {% endblock%}태그를 작성하고 태그 사이에 해당 페이지에 대한 내용 작성 
 {% endcomment %}
 
-{% extends 'base.html' %}
 {% load static %}
 {% block content %}
         <div id="container">
