@@ -14,7 +14,6 @@
 <form method="post" action="{% url 'app:mycloset' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
-    <!--<input type="text" name="cloth_var" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">-->
     <select name="cloth_var">
         <option value="top">상의</option>
         <option value="pants">바지</option>
@@ -28,6 +27,7 @@
     
     <button type="submit" name="create_cloth" class="btn btn-primary">저장</button>
     <a href="{% url 'app:root' %}">홈으로</a>
+    <a href="{% url 'app:color_match_test' %}">Color_Match_Test</a>
 
 
     <div class="description">
