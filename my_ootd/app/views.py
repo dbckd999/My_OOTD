@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import random
 import json
+import math
 
 
 def root(request):
@@ -145,7 +146,59 @@ def update_cloth(request):
  
         previouspage = request.POST.get('previouspage', '/')
         return redirect(previouspage)
+    
+def get_close_color(request):
+    if request.method == 'POST':
 
+        retrieve = SevUser.objects.get(id=request.user.id)
+
+        r = request.POST['R']
+        g = request.POST['G']
+        b = request.POST['B']
+
+        cloth = UserClothes.all_user_datas(UserClothes(), retrieve)
+        cloth_col = []
+
+        for i in cloth:
+            data_tmp = []
+            tmp = i['cloth_col_1']
+            nm = i['cloth_name']
+            for i in (1, 3, 5):
+                decimal = int(tmp[i:i+2], 16)               
+                data_tmp.append(decimal)
+
+            cloth_col.append((nm, tuple(data_tmp)))
+
+        MYCOL = (int(r), int(g), int(b))        
+        dist = []
+        for i in range(len(cloth_col)):
+            name = cloth_col[i][0]
+            t_col = cloth_col[i][1]
+            t_r, t_g, t_b = t_col
+            distance = math.sqrt((MYCOL[0] - t_r)**2 + (MYCOL[1] - t_g)**2 + (MYCOL[2] - t_b)**2)
+            dist.append((distance, t_col, name))
+        
+        dist.sort()
+
+        for i in range(len(dist)):
+            print((i+1), ": 옷 이름: ", dist[i][2],  "  색: ", dist[i][1], "  거리: ", round(dist[i][0], 2))
+
+        color_match = { 
+            "user": request.user,
+            "userdata": UserClothes.all_user_datas(UserClothes(), retrieve),
+            "colormatch" : dist
+            }
+
+        return render(request, 'app/color_match_test.html', color_match)
+
+    else:
+        retrieve = SevUser.objects.get(id=request.user.id)
+        userClothes_post = {
+            "user": request.user,
+            "userdata": UserClothes.all_user_datas(UserClothes(), retrieve),
+        }
+        # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
+        return render(request, 'app/color_match_test.html', userClothes_post)
 
 def create_user(request):
     return render(request, 'app/create_user.html')
