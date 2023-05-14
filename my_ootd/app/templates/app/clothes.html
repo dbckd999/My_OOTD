@@ -65,7 +65,7 @@
 <div class="moding">
 <form method="post" action="{% url 'app:mycloset' %}" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" placeholder="이름을 작성해주세요!">
+    <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" placeholder="  이름을 작성해주세요!">
     <select name="cloth_var">
         <option value="top">상의</option>
         <option value="pants">바지</option>
