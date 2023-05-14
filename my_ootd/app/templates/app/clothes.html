@@ -1,19 +1,71 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+    .clothes_image { /*해당 항목에 대한 스타일 지정*/
+        border: 5px solid black; /*테두리 두께*/
+        width: 200px; /*너비*/
+        height: 200px; /*높이*/
+        border-radius: 20px;
+        margin-bottom: 5px;
+    }
+
+    .main { /*해당 항목에 대한 스타일 지정*/
+        display: inline-block;
+        width: auto;
+        padding: 50px; /*요소 내부와 테두리 간격*/
+    }
+
+     .update-btn, .delete-btn{
+        font-size: auto;
+        padding: 3px 10px;
+
+        border: 2px solid black;
+        background-color: skyblue;
+    }
+
+    .create-btn{
+        font-size: auto;
+        padding: 5px 20px;
+        border: 2px solid black;
+        background-color: skyblue;
+        border-radius: 10px;
+    }
+
+     .moding  {
+        display: flex;
+        justify-content: center;
+        border-bottom: 2px solid black;
+        margin-top: 20px;
+
+    }
+
+    input, select, button {
+        border: 2px solid black;
+        padding: 5px;
+        margin: 2px;
+        border-radius: 10px;
+
+</style>
+
 <script>
     // 특수문자 입력 방지
     function characterCheck(obj){
-    var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+    var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
     // 허용할 특수문자는 위에서 삭제
     // 띄어쓰기도 특수문자 처리
     if( regExp.test(obj.value) ){
-        alert("특수문자는 입력하실수 없습니다.");
+        alert("특수문자는 입력/사용 하실수 없습니다.");
         obj.value = obj.value.substring( 0 , obj.value.length - 1 ); // 입력한 특수문자 한자리 지움
         }
     }
 </script>
 
+<div class="moding">
 <form method="post" action="{% url 'app:mycloset' %}" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+    <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" placeholder="이름을 작성해주세요!">
     <select name="cloth_var">
         <option value="top">상의</option>
         <option value="pants">바지</option>
@@ -25,31 +77,25 @@
     <input type="color" name="cloth_col_2" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
     <input type="file" name="cloth_img">
     
-    <button type="submit" name="create_cloth" class="btn btn-primary">저장</button>
-    <a href="{% url 'app:root' %}">홈으로</a>
-    <a href="{% url 'app:color_match_test' %}">Color_Match_Test</a>
+    <button type="submit"  name="create_cloth" class=" create-btn">저장</button>
+</form>
+</div>
 
-
-    <div class="description">
-        <p>1. 왼쪽부터 차례대로 옷 이름, 옷 종류, 색깔1, 색깔2 입니다<br /></p>
-        <p></p>2. 내 옷에 대한 정보를 빈칸에 입력한 후 '저장' 버튼을 누르면 내 옷이 등록됩니다<br /></p>
-        <p>3. 삭제하고 싶은 옷이 있으면 '삭제' 버튼을 통해 삭제하실 수 있습니다.<br /></p>
-        <p>4. 수정하고 싶은 옷이 있으면 '수정' 버튼을 통해 수정하실 수 있습니다.<br /></p>
-        <hr/>
-    </div>
-
-    <div class = "main">        
-        {% for queryset in userdata %}
-        {{ queryset.cloth_name }}<br />
-        {{ queryset.cloth_var }}<br />
-        {{ queryset.cloth_col_1 }}<br />
-        {{ queryset.cloth_col_2 }}<br />
-        <img src="{{ queryset.cloth_img.url }}"><br />
-
-        <button type="submit" class="btn btn-primary" name="delete_cloth" value="{{ queryset.id }}">삭제</button>
-        <button type="submit" class="btn btn-primary" name="update_cloth" value="{{ queryset.id }}">수정</button>
-        <hr/>
+<form>
+    {% for queryset in userdata %}
+    <div class="main">
+        <img src="{{ queryset.cloth_img.url }}" class="clothes_image">
+        <br>
+        <hr>
+        <strong>-이름: {{ queryset.cloth_name }} </strong>  <br>
+        <strong>-종류: {{ queryset.cloth_var }}</strong> <br>
+        <strong>-색상1: {{ queryset.cloth_col_1 }}</strong> <br>
+        <strong>-색상2: {{ queryset.cloth_col_2 }}</strong> <br>
+        <button type="submit" class="update-btn" name="update_cloth" value="{{ queryset.id }}">수정</button>
+        <button type="submit" class="delete-btn" name="delete_cloth" value="{{ queryset.id }}">삭제</button>
+    <hr>
     </div>
     {% endfor %}
 
 </form>
+{% endblock%}
