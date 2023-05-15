@@ -80,8 +80,6 @@
     <button type="submit"  name="create_cloth" class=" create-btn">저장</button>
 </form>
 </div>
-
-<form>
     {% for queryset in userdata %}
     <div class="main">
         <img src="{{ queryset.cloth_img.url }}" class="clothes_image">
@@ -91,11 +89,12 @@
         <strong>-종류: {{ queryset.cloth_var }}</strong> <br>
         <strong>-색상1: {{ queryset.cloth_col_1 }}</strong> <br>
         <strong>-색상2: {{ queryset.cloth_col_2 }}</strong> <br>
-        <button type="submit" class="update-btn" name="update_cloth" value="{{ queryset.id }}">수정</button>
-        <button type="submit" class="delete-btn" name="delete_cloth" value="{{ queryset.id }}">삭제</button>
+        <form action="{% url 'app:mycloset' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="update-btn" name="update_cloth" value="{{ queryset.id }}">수정</button>
+            <button type="submit" class="delete-btn" name="delete_cloth" value="{{ queryset.id }}">삭제</button>
+        </form>
     <hr>
     </div>
     {% endfor %}
-
-</form>
 {% endblock%}
