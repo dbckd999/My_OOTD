@@ -70,7 +70,7 @@ def logout(request):
     logout(request)
 
 
-# 옷 db에 저장, 조회, 삭제, 업데이트
+# 옷 db에 저장, 조회, 삭제
 def post_cloth(request):
     if request.method == 'POST':
         # db 전체 삭제
@@ -89,8 +89,10 @@ def post_cloth(request):
             # 저장 버튼을 통해 옷 정보 저장
             if 'delete_cloth' in request.POST:
                 delete_cloth = request.POST['delete_cloth']
+                usercloth = UserClothes.objects.get(id=delete_cloth)
 
-                UserClothes.objects.filter(id=delete_cloth).delete()
+                usercloth.delete_cloth()
+                #usercloth.delete()
             elif 'update_cloth' in request.POST:
                 update_cloth = request.POST['update_cloth']
 
@@ -98,7 +100,7 @@ def post_cloth(request):
                 return render(request, 'app/cloth_update.html', {'update': userClothes_update})
             elif 'create_cloth' in request.POST:           
                 post.user_id = SevUser.objects.get(id=request.user.id)
-                post.username = user.get_full_name() # 닉네임 안 나오는 버그 있음
+                post.username = user.get_full_name()
                 post.cloth_name = request.POST['cloth_name']
                 post.cloth_var = request.POST['cloth_var']
                 post.cloth_col_1 = request.POST['cloth_col_1']
@@ -115,10 +117,9 @@ def post_cloth(request):
             "user": request.user,
             "userdata": UserClothes.all_user_datas(UserClothes(), retrieve),
         }
-        # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/clothes.html', userClothes_post)
 
-
+# 옷 정보 업데이트
 def update_cloth(request):
     if request.method == 'POST':
         user = SevUser()
@@ -126,24 +127,32 @@ def update_cloth(request):
         if 'updateConfirm' in request.POST:
             cloth_id = request.POST['updateConfirm']
             cloth_update = UserClothes.objects.get(id=cloth_id)
-
             cloth_img_tmp = cloth_update.cloth_img
-
+            
             cloth_update.user_id = SevUser.objects.get(id=request.user.id)
             cloth_update.username = user.get_full_name()          
             cloth_update.cloth_name = request.POST['update_cloth_name']
             cloth_update.cloth_var = request.POST['update_cloth_var']
             cloth_update.cloth_col_1 = request.POST['update_cloth_col_1']
-            cloth_update.cloth_col_2 = request.POST['update_cloth_col_2']            
-            cloth_update.cloth_img = request.FILES.get('update_cloth_img')
+            cloth_update.cloth_col_2 = request.POST['update_cloth_col_2']
+            if (request.FILES.get('update_cloth_img')):
+                cloth_update.delete_old_cloth()
+                cloth_update.cloth_img = request.FILES.get('update_cloth_img')
+            else:
+                cloth_update.cloth_img = None
 
             if cloth_update.cloth_name != "" and cloth_update.cloth_var != "":
                 if cloth_update.cloth_img == None:
                     # 사진을 바꾸지 않으면 이전 사진 파일 그대로 사용
                     cloth_update.cloth_img = cloth_img_tmp
-                    cloth_update.save() 
+                    cloth_update.save()
+
                 else:
                     cloth_update.save()
+                    
+
+                    
+
  
         previouspage = request.POST.get('previouspage', '/')
         return redirect(previouspage)
@@ -165,12 +174,12 @@ def get_close_color(request):
             tmp = i['cloth_col_1']
             nm = i['cloth_name']
             for i in (1, 3, 5):
-                decimal = int(tmp[i:i+2], 16)               
+                decimal = int(tmp[i:i+2], 16)
                 data_tmp.append(decimal)
 
             cloth_col.append((nm, tuple(data_tmp)))
 
-        MYCOL = (int(r), int(g), int(b))        
+        MYCOL = (int(r), int(g), int(b))
         dist = []
         for i in range(len(cloth_col)):
             name = cloth_col[i][0]

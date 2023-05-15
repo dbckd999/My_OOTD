@@ -1,4 +1,5 @@
 import os
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from uuid import uuid4
@@ -47,6 +48,15 @@ class UserClothes(models.Model):
         return ''.join([upload_to, uuid_name + extension])
     
     cloth_img = models.ImageField(null=True, upload_to=upload_cloth_img, blank=True) # 옷 사진
+
+    def delete_cloth(self, *args, **kargs):
+        if self.cloth_img:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.cloth_img.path))
+        super(UserClothes, self).delete(*args, **kargs)
+
+    def delete_old_cloth(self):
+        if self.cloth_img:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.cloth_img.path))
 
     def __str__(self):
         return f'{self.user_id} {self.username} {self.cloth_name} {self.cloth_var} {self.cloth_col_1} {self.cloth_col_2}'
