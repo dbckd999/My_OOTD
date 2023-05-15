@@ -24,7 +24,10 @@
             <hr class="m-3">
             <div class="dail_code container-fluid m-3 mx-2">
                 <h3 style="font-family: TheJamsil5Bold"><a class="navbar-brand" href="#">데일리 코디</a></h3>
-                <div class="card">
+                <style>
+                    .cody img{width: 100px; height:100px;}
+                </style>
+                <div class="card cody">
 <!--                <img src="{% static 'image/daily_code.jpg' %}" class="card-img-top" alt="daily_code" id="daily_code_img">-->
                     {% if cody.top %}
                     <img src="/media/{{cody.top}}" id="top" class="card-img-top" alt="daily_code">
@@ -133,31 +136,25 @@
                         </div>
                     </div>
                     -->
-                    <div class="col">
-                        <div class="card h-100">
-                        <img src="{% static 'icons/add_icon.png' %}" class="card-img-top img-thumbnail" alt="add_icon">
-                        </div>
-                    </div>
                 </div>
                 <!--<script type="text/javascript" src="{% static 'mycloset.js' %}"></script>-->
             </div>
             <hr class="m-3 my-2">
             <div class="my_style container-fluid m-3 mx-2 mb-5">
-                <h3 style="font-family: TheJamsil5Bold"><a class="navbar-brand" href="#">내 스타일</h3></a>
+                <h3 style="font-family: TheJamsil5Bold"><a class="navbar-brand" href="#">내 스타일</a></h3>
                 <div class="my_style_list row row-cols-2 row-cols-md-2 g-4">
+                    {% for cody_logs in saved_cody %}
+                    <div class="col">
+                        <div class="card h-100">
+                        {% for c in cody_logs %}
+                            <img src="media/{{c}}" class="" alt="" style="height:100px;width:100px">
+                        {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
                     <div class="col">
                         <div class="card h-100">
                         <img src="{% static 'image/style1.jpg' %}" class="card-img-top" alt="top">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100">
-                        <img src="{% static 'image/style2.jpg' %}" class="card-img-top" alt="top">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100">
-                        <img src="{% static 'icons/add_icon.png' %}" class="card-img-top img-thumbnail" alt="add_icon">
                         </div>
                     </div>
                 </div>

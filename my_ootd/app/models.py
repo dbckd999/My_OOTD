@@ -80,3 +80,10 @@ class CodyLog(models.Model):
     # 중복방지
     class Meta:
         unique_together = [["top", "pants", "outer", "shoes", "accessory"]]
+
+    def __str__(self):
+        try:
+            return f'{self.user_id}:[{self.top.id}, {self.pants.id}, {self.outer.id}, {self.outer.id}' \
+               f', {self.shoes.id}, {self.accessory.id}]'
+        except AttributeError:
+            return "Err"

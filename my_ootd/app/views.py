@@ -26,7 +26,8 @@ def root(request):
     try:
         context = {        
             "userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
-            "cody": cloth_all_recommend(request)
+            "cody": cloth_all_recommend(request),
+            "saved_cody": saved_cody(request)
         }
     except SevUser.DoesNotExist:
         context = {
@@ -75,8 +76,8 @@ def post_cloth(request):
         # db 전체 삭제
         # UserClothes.objects.all().delete()
 
-        post = UserClothes()        
-        user = SevUser()        
+        post = UserClothes()
+        user = SevUser()
 
         # "clothes.html" 색상 제외 input text 칸 2개
         # 두 칸은 각각 옷이름, 옷종류
@@ -200,6 +201,7 @@ def get_close_color(request):
         # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/color_match_test.html', userClothes_post)
 
+
 def create_user(request):
     return render(request, 'app/create_user.html')
 
@@ -226,7 +228,7 @@ def cloth_recommend(cloth_type: str, request) -> UserClothes or None:
     cloth_len = len(UserClothes.objects.filter(cloth_var=cloth_type))
     if cloth_len is not 0:
         color_pick = random.randrange(0, cloth_len)
-        print(color_pick)
+        # print(color_pick)
         cloth = UserClothes.objects.filter(user_id=request.user.id, cloth_var=cloth_type)[color_pick]
         return cloth
     else:
@@ -268,3 +270,18 @@ def save_my_style(request):
         return HttpResponse('Saved', status=200)
     except IntegrityError as e:
         return HttpResponse(e, status=409)
+
+
+def saved_cody(request):
+    c = CodyLog.objects.filter(user_id=request.user)
+    saved = list()
+    for cc in c:
+        saved.append([
+            str(cc.top.cloth_img),
+            str(cc.pants.cloth_img),
+            str(cc.outer.cloth_img),
+            str(cc.shoes.cloth_img),
+            str(cc.accessory.cloth_img)
+        ])
+
+    return saved
