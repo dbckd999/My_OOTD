@@ -125,5 +125,5 @@ def select_weather_icon_name(sky: list, pty: list) -> str:
     else:
         icon_name = pty_icon_name[pty.index(max(pty))]
 
-    print(icon_name)
+    # print(icon_name)
     return icon_name
