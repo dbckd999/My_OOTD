@@ -149,11 +149,6 @@ def update_cloth(request):
 
                 else:
                     cloth_update.save()
-                    
-
-                    
-
- 
         previouspage = request.POST.get('previouspage', '/')
         return redirect(previouspage)
     
@@ -165,6 +160,7 @@ def get_close_color(request):
         r = request.POST['R']
         g = request.POST['G']
         b = request.POST['B']
+        c_var = request.POST['col_cloth_var']
 
         cloth = UserClothes.all_user_datas(UserClothes(), retrieve)
         cloth_col = []
@@ -173,25 +169,30 @@ def get_close_color(request):
             data_tmp = []
             tmp = i['cloth_col_1']
             nm = i['cloth_name']
+            col_cloth_var = i['cloth_var']
             for i in (1, 3, 5):
                 decimal = int(tmp[i:i+2], 16)
                 data_tmp.append(decimal)
 
-            cloth_col.append((nm, tuple(data_tmp)))
+            cloth_col.append((nm, tuple(data_tmp), col_cloth_var))
 
         MYCOL = (int(r), int(g), int(b))
         dist = []
         for i in range(len(cloth_col)):
             name = cloth_col[i][0]
             t_col = cloth_col[i][1]
+            t_var = cloth_col[i][2]
             t_r, t_g, t_b = t_col
             distance = math.sqrt((MYCOL[0] - t_r)**2 + (MYCOL[1] - t_g)**2 + (MYCOL[2] - t_b)**2)
-            dist.append((distance, t_col, name))
+            dist.append((distance, t_col, name, t_var))
         
         dist.sort()
 
         for i in range(len(dist)):
-            print((i+1), ": 옷 이름: ", dist[i][2],  "  색: ", dist[i][1], "  거리: ", round(dist[i][0], 2))
+            if (dist[i][3] == c_var):
+                print((i+1), ": 옷 이름: ", dist[i][2],  "  색: ", dist[i][1], "  거리: ", round(dist[i][0], 2), " 종류 : ", dist[i][3])
+            else:
+                continue
 
         color_match = { 
             "user": request.user,
