@@ -1,0 +1,51 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+  }
+  
+  label {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  input {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: skyblue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  button:hover {
+    padding: 10px 20px;
+    background-color: skyblue;
+  }
+
+  .space {
+    width: 4px;
+    height: auto;
+    display: inline-block;
+  }
+
+  div {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    transform: translate(0);
+  }
+
+  fieldset {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }

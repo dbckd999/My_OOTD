@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h2>회원정보</h2>
+      <form>
+        <label for="name">이름 : </label>
+        <input type="text" id="name" name="name" value="홍길동" required>
+    
+        <label for="email">이메일 : </label>
+        <input type="email" id="email" name="email" value="honggd@example.com" required>
+    
+        <label for="phone">전화번호 : </label>
+        <input type="tel" id="phone" name="phone" value="010-1234-5678" required>
+
+        <fieldset>
+          <legend>비밀번호 수정</legend>
+          <label for="current_password">현재 비밀번호:</label>
+          <input type="password" id="current_password" name="current_password"><br>
+          <label for="new_password">새로운 비밀번호:</label>
+          <input type="password" id="new_password" name="new_password"><br>
+          <label for="confirm_password">새로운 비밀번호 확인:</label>
+          <input type="password" id="confirm_password" name="confirm_password"><br>
+          <button type="submit">비밀번호 변경</button>
+        </fieldset>
+
+        <label for="options">퍼스널컬러 선택</label>
+        <select id="options" name="options">
+          <option value="option1">봄웜라이트</option>
+          <option value="option2">봄웜트루</option>
+          <option value="option3">봄웜브라이트</option>
+          <option value="option4">여름쿨라이트</option>
+          <option value="option5">여름쿨페일</option>
+          <option value="option6">여름쿨뮤트</option>
+          <option value="option7">가을웜트루</option>
+          <option value="option8">가을웜뮤트</option>
+          <option value="option9">가을웜딥</option>
+          <option value="option10">겨울쿨브라이트</option>
+          <option value="option11">겨울쿨딥</option>
+          <option value="option12">겨울쿨트루</option>
+        </select>
+        <div class="space"></div>
+        <button type="submit">저장하기</button>
+      </form>
+    </div>
+  </body>
+</html>
