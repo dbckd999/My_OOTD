@@ -67,7 +67,7 @@
 <!--                    <div style="font-family:Noto Sans KR">게시판</div>-->
 <!--                </a>-->
                 {% if user.is_authenticated %}
-                <a href="#" class="btn btn-light" style="inline; border-radius:0px">
+                <a href="{% url 'app:personal_color' %}" class="btn btn-light" style="inline; border-radius:0px">
                     <img src="{% static 'icons/pc_icon.png' %}" alt="add_icon">
                     <div style="font-family:Noto Sans KR">컬러</div>
                 </a>
@@ -75,7 +75,7 @@
                     <img src="{% static 'icons/closet_icon.png' %}"alt="add_icon">
                     <div style="font-family:Noto Sans KR">옷장</div>
                 </a>
-                <a href="#" class="btn btn-light" style="inline; border-radius:0px">
+                <a href="{% url 'app:my' %}" class="btn btn-light" style="inline; border-radius:0px">
                     <img src="{% static 'icons/my_icon.svg' %}"alt="add_icon">
                     <div style="font-family:Noto Sans KR">마이</div>
                 </a>
