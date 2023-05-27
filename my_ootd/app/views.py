@@ -295,3 +295,11 @@ def saved_cody(request):
         ])
 
     return saved
+
+
+def my(request):
+    return render(request, 'app/user/userinfo.html', {})
+
+
+def personal_color(request):
+    return render(request, 'app/color.html', {})
