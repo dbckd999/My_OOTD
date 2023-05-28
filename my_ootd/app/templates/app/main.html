@@ -146,15 +146,45 @@
                     {% for cody_logs in saved_cody %}
                     <div class="col">
                         <div class="card h-100">
-                        {% for c in cody_logs %}
+                        {% for c in cody_logs %}s
                             <img src="media/{{c}}" class="" alt="" style="height:100px;width:100px">
                         {% endfor %}
                         </div>
                     </div>
                     {% endfor %}
-                    <div class="col">
-                        <div class="card h-100">
-                        <img src="{% static 'image/style1.jpg' %}" class="card-img-top" alt="top">
+                    <div class="col"> 
+                        <div class="card h-100"> 
+                            {% comment %} 옷 종류별로 영역 분할 {% endcomment %}
+                            {% comment %} 
+                                0행 0열: 아우터
+                                0행 1열: 상의
+                                1행 0열: 하의 or 원피스
+                                1행 1열: 신발
+                                2행 0열: 악세사리
+                                2행 1열: 모자
+                            {% endcomment %}
+                            <div class="row row-cols-2"> 
+                                <div class="col">
+                                    <img src="{% static 'image/outer.jpg' %}" class="card-img-top" alt="top">
+                                </div>
+                                <div class="col">
+                                    <img src="{% static 'image/tshirt2.jpg' %}" class="card-img-top" alt="top">
+                                </div>
+                                <div class="col">
+                                    <img src="{% static 'image/pants.jpg' %}" class="card-img-top" alt="top">
+                                </div>
+                                <div class="col">
+                                    <img src="{% static 'image/shoes.jpg' %}" class="card-img-top" alt="top">
+                                </div>
+                                <div class="col">
+                                    <img src="{% static 'image/bag.jpg' %}" class="card-img-top" alt="top">
+                                </div>
+                                <div class="col">
+                                    <img src="{% static 'image/cap.jpg' %}" class="card-img-top" alt="top">
+                                </div>
+                            </div>
+                            
+                        {% comment %} <img src="{% static 'image/style1.jpg' %}" class="card-img-top" alt="top"> {% endcomment %}
                         </div>
                     </div>
                 </div>
