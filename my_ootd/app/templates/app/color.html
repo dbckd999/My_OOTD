@@ -38,17 +38,18 @@
     }
 
 </style>
-<form>
+<form method="get" action="{% url 'app:personal_color' %}">
     <label>
-        <input type="radio" name="choice" >
+        <input type="radio" name="picked_color" >
         <img src="C:\Users\user\Desktop\qwert\1234.jpg">
     </label>
 
     <label>
-        <input type="radio" name="choice" >
+        <input type="radio" >
         <img src="C:\Users\user\Desktop\qwert\5678.jpg">
     </label>
 
+    <label for="picked-id">선택한 퍼스널 컬러로 결정하기!</label><input type="checkbox" name="picked" id="picked-id">
     <input type="submit" value="다음 으로">
 </form>
 {% endblock %}
