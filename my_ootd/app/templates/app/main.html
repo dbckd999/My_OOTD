@@ -108,26 +108,43 @@
             <script type="text/javascript" src="{% static 'modal.js' %}"></script>
             <hr class="m-3">
             <div class="my_closet container-fluid m-3 mx-2">
-                <h3 style="font-family: TheJamsil5Bold"><a class="navbar-brand" href="#">내 옷장</h3></a>
+                <h3 style="font-family: TheJamsil5Bold"><a class="navbar-brand" href="#">내 옷장</a></h3>
                 <div class="clothes_category my-3" style="font-family:LINESeedKR-Bd; overflow-x:auto; white-space:nowrap;">
-                    <button type="button" class="btn btn-light" id="btn_cap" style=>모자</button>
-                    <button type="button" class="btn btn-light" id="btn_outer">아우터</button>
-                    <button type="button" class="btn btn-light" id="btn_top">상의</button>
-                    <button type="button" class="btn btn-light" id="btn_pants">하의</button>
-                    <button type="button" class="btn btn-light" id="btn_dress">원피스</button>
-                    <button type="button" class="btn btn-light" id="btn_shoe">신발</button>
-                    <button type="button" class="btn btn-light" id="btn_accessory">악세사리</button>
+                    <button type="button" class="btn btn-light btn_cg" category="{{category.0}}">상의</button>
+                    <button type="button" class="btn btn-light btn_cg" category="{{category.1}}">하의</button>
+                    <button type="button" class="btn btn-light btn_cg" category="{{category.2}}">아우터</button>
+                    <button type="button" class="btn btn-light btn_cg" category="{{category.3}}">신발</button>
+                    <button type="button" class="btn btn-light btn_cg" category="{{category.4}}">악세서리</button>
                 </div>
-                <div class="top_clothes row row-cols-2 row-cols-md-2 g-4">
+                <script>
+                var a;
+                $(document).ready(function() {
+                    $('.btn_cg').click(function() {
+                        console.log($(this).attr('category'))
+                        $.ajax({
+                            type: 'POST',
+                            url: '{% url 'app:clothes_category' %}',
+                            data: { 'category': $(this).attr('category') },
+                            success:(data)=>{
+                                $('#closet').empty();
+                                JSON.parse(data.replace(/'/g, '"')).forEach(e => {
+                                    $('#closet').append('<div class="col"><div class="card h-100"><img src="\/media\/'+e+'" class="card-img-top"></div>');
+                                });
+                            },
+                            error: (xhr, errmsg, err)=>{
+                                console.log(xhr.status + ": " + xhr.responseText);
+                            }
+                        })
+                    })
+                })
+                </script>
+                <div class="top_clothes row row-cols-2 row-cols-md-2 g-4" id="closet">
                     {% for queryset in userdata %}
-                    <form method="post" enctype="multipart/form-data" >
-                        <div class="col">
-                            <div class="card h-100">
-                                    {% csrf_token %}
-                                    <img src="{{ queryset.cloth_img.url }}" class="card-img-top" alt="top" id="img_1" value="{{ queryset.id }}" >
-                            </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ queryset.cloth_img.url }}" class="card-img-top">
                         </div>
-                    </form>
+                    </div>
                     {% endfor %}
                     <!--
                     <div class="col">

@@ -23,9 +23,11 @@ def root(request):
 
     try:
         context = {        
-            "userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
+            # "_userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
+            "userdata": UserClothes.objects.filter(user_id=request.user.id, cloth_var='top'),
             "cody": cloth_all_recommend(request),
-            "saved_cody": saved_cody(request)
+            "saved_cody": saved_cody(request),
+            "category": ('top', 'pants', 'outer', 'shoes', 'accessory')  # 카테고리 조회 전용
         }
     except SevUser.DoesNotExist:
         context = {
@@ -301,3 +303,22 @@ def my(request):
 
 def personal_color(request):
     return render(request, 'app/color.html', {})
+
+
+# 카테고리 별 옷장 조회
+@csrf_exempt
+def clothes_category(request):
+    if request.method == 'POST':
+        key = request.POST.get('category')
+
+        c = UserClothes.objects.filter(user_id=request.user.id, cloth_var=key)
+        c_list = []
+        for i in c:
+            c_list.append(str(i.cloth_img))
+
+        try:
+            return HttpResponse(str(c_list), status=200)
+        except IntegrityError as e:
+            return HttpResponse(str(e), status=409)
+
+    return HttpResponse(status=400)  # 유효하지 않은 요청인 경우 400 응답 반환

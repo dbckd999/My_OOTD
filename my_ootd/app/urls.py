@@ -20,4 +20,5 @@ urlpatterns = [
     # ajax
     path('retry_recommend_cody', views.retry_recommend_cody, name='retry_recommend_cody'),
     path('save_my_style', views.save_my_style, name='save_my_style'),
+    path('clothes_category', views.clothes_category, name='clothes_category'),
 ]
