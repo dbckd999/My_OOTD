@@ -2,13 +2,14 @@
     color: #333;
     font-size: 20px;
     margin-bottom: 10px;
-    margin-top: 150px;
+    margin-top: 120px;
 }
 
 .user_id {
     display: block;
     margin-top: 10px;
     margin-bottom: 10px;
+    width: 20px;
 }
 
 .nickname {
@@ -67,6 +68,7 @@ select {
 
 .space {
     height: 20px;
+    margin-bottom: 10px;
 }
 
 .save {
