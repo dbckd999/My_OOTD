@@ -61,7 +61,7 @@ def sign_up(request):
             , 'phone': '01044445555'
         })
     }
-    return render(request, 'app/signup.html', context)
+    return render(request, 'app/create_user.html', context)
 
 
 # 로그아웃
@@ -235,8 +235,8 @@ def cloth_recommend(cloth_type: str, request) -> UserClothes or None:
     3. +날씨 고려해 긴팔/짧은팔 추천
     :return: 4. 색상값 중 가장 가까운 옷 선택
     """
-    cloth_len = len(UserClothes.objects.filter(cloth_var=cloth_type))
-    if cloth_len is not 0:
+    cloth_len = len(UserClothes.objects.filter(user_id=request.user.id, cloth_var=cloth_type))
+    if cloth_len != 0:
         color_pick = random.randrange(0, cloth_len)
         # print(color_pick)
         cloth = UserClothes.objects.filter(user_id=request.user.id, cloth_var=cloth_type)[color_pick]
