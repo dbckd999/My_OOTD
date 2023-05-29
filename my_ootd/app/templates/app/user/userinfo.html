@@ -4,50 +4,50 @@
 <link rel="stylesheet" href="{% static 'userinfo.css' %}">
 <div>
     <h2 class="heading">회원정보</h2>
-        <form>
-            사용자 이름(ID) : 
-            <input type="text" id="user_id" name="user_id" value=" " required class="user_id">
+    <form>
+        사용자 이름(ID) : 
+        <input type="text" id="user_id" name="user_id" value=" " required class="user_id">
 
-            닉네임 : 
-            <input type="text" id="nickname" name="nickname" value=" " required class="nickname">
+        닉네임 : 
+        <input type="text" id="nickname" name="nickname" value=" " required class="nickname">
 
-            이름 :
-            <input type="text" id="name" name="name" value="홍길동" required class="name">
+        이름 :
+        <input type="text" id="name" name="name" value="홍길동" required class="name">
 
-            이메일 : 
-            <input type="email" id="email" name="email" value="honggd@example.com" required class="mail">
+        이메일 : 
+        <input type="email" id="email" name="email" value="honggd@example.com" required class="mail">
 
-            전화번호 : 
-            <input type="tel" id="phone" name="phone" value="010-1234-5678" required class="number">
+        전화번호 : 
+        <input type="tel" id="phone" name="phone" value="010-1234-5678" required class="number">
 
-            퍼스널컬러 선택
-            <select id="options" name="options" class="color">
-                <option value="option1">봄웜라이트</option>
-                <option value="option2">봄웜트루</option>
-                <option value="option3">봄웜브라이트</option>
-                <option value="option4">여름쿨라이트</option>
-                <option value="option5">여름쿨페일</option>
-                <option value="option6">여름쿨뮤트</option>
-                <option value="option7">가을웜트루</option>
-                <option value="option8">가을웜뮤트</option>
-                <option value="option9">가을웜딥</option>
-                <option value="option10">겨울쿨브라이트</option>
-                <option value="option11">겨울쿨딥</option>
-                <option value="option12">겨울쿨트루</option>
-            </select>
+        퍼스널컬러 선택
+        <select id="options" name="options" class="color">
+            <option value="option1">봄웜라이트</option>
+            <option value="option2">봄웜트루</option>
+            <option value="option3">봄웜브라이트</option>
+            <option value="option4">여름쿨라이트</option>
+            <option value="option5">여름쿨페일</option>
+            <option value="option6">여름쿨뮤트</option>
+            <option value="option7">가을웜트루</option>
+            <option value="option8">가을웜뮤트</option>
+            <option value="option9">가을웜딥</option>
+            <option value="option10">겨울쿨브라이트</option>
+            <option value="option11">겨울쿨딥</option>
+            <option value="option12">겨울쿨트루</option>
+        </select>
 
-            <div class="lastlogin">
-            마지막 로그인  
-            날짜 : <input type="date" id="dateBox" name="dateBox" value="2023-05-29">
-            시각 : <input type="time" id="timeBox" name="timeBox" value="19:05">
-            </div>
+        <div class="lastlogin">
+        마지막 로그인<br> 
+        날짜 : <input type="date" id="dateBox" name="dateBox" value="2023-05-29">
+        시각 : <input type="time" id="timeBox" name="timeBox" value="19:05">
+        </div>
 
-            <div class="checkbox-container">
-            <input type="checkbox" id="isMaleCheckbox" name="isMale"> IsMale
-            </div>
+        <div class="checkbox">
+        <input type="checkbox" id="isMaleCheckbox" name="isMale"> IsMale
+        </div>
 
-            <div class="space"></div>
-            <button type="submit" class="save">저장하기</button>
-        </form>
+        <div class="space"></div>
+        <button type="submit" class="save">저장하기</button>
+    </form>
 </div>
 {% endblock %}
