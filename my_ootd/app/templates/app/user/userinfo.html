@@ -3,24 +3,33 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'userinfo.css' %}">
 <h2 class="heading">회원정보</h2>
-    사용자 이름(ID) : 
-    <input type="id" id="user_id" name="user_id" value="id" required class="user_id">
+    <div class="id">사용자 이름(ID) : 
+    <input type="text" id="user_id" name="user_id" value=" " required>
     <br>
+    </div>
 
-    닉네임 : 
-    <input type="text" id="nickname" name="nickname" value=" " required class="nickname">
+    <div class="nickname"> 닉네임 :  
+    <input type="text" id="nickname" name="nickname" value=" " required>
+    <br>
+    </div>
 
-    이름 :
-    <input type="text" id="name" name="name" value="홍길동" required class="name">
+    <div class="name">이름 : 
+    <input type="text" id="name" name="name" value="홍길동" required>
+    <br>
+    </div>
 
-    이메일 : 
-    <input type="email" id="email" name="email" value="honggd@example.com" required class="mail">
+    <div class="mail">이메일 :  
+    <input type="email" id="email" name="email" value="honggd@example.com" required>
+    <br>
+    </div>
 
-    전화번호 : 
-    <input type="tel" id="phone" name="phone" value="010-1234-5678" required class="number">
+    <div class="number">전화번호 : 
+    <input type="tel" id="phone" name="phone" value="010-1234-5678" required>
+    <br>
+    </div>
 
-    퍼스널컬러 선택
-    <select id="options" name="options" class="color">
+    <div class="color">퍼스널컬러 선택
+    <select id="options" name="options">
         <option value="option1">봄웜라이트</option>
         <option value="option2">봄웜트루</option>
         <option value="option3">봄웜브라이트</option>
@@ -34,6 +43,7 @@
         <option value="option11">겨울쿨딥</option>
         <option value="option12">겨울쿨트루</option>
     </select>
+    </div>
 
     <div class="lastlogin">
         마지막 로그인<br> 
