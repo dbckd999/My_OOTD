@@ -46,6 +46,25 @@
         padding: 5px;
         margin: 2px;
         border-radius: 10px;
+    }
+
+    .color-box {
+        display: inline-block;
+        width: 40px; /* 색상 박스의 너비 설정 */
+        height: 20px; /* 색상 박스의 높이 설정 */
+        margin-right: 5px;
+        border: 2px solid black;
+        border-radius: 7px;
+        vertical-align: middle;
+    }
+
+    .color1 {
+        background-color: var(--cloth-col-1);
+    }
+
+    .color2 {
+        background-color: var(--cloth-col-2);
+    }
 
 </style>
 
@@ -65,7 +84,7 @@
 <div class="moding">
 <form method="post" action="{% url 'app:mycloset' %}" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" placeholder="  이름을 작성해주세요!">
+    <input type="text" name="cloth_name" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" placeholder="이름을 작성해주세요.">
     <select name="cloth_var">
         <option value="top">상의</option>
         <option value="pants">바지</option>
@@ -73,10 +92,15 @@
         <option value="shoes">신발</option>
         <option value="accessory">악세사리</option>
     </select>
-    <input type="color"name="cloth_col_1" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+
+    <label for="cloth_col_1" class="color-label"><strong>색상1:</strong></label>
+    <input type="color" name="cloth_col_1" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+
+    <label for="cloth_col_2" class="color-label"><strong>색상2:</strong></label>
     <input type="color" name="cloth_col_2" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)">
+
     <input type="file" name="cloth_img">
-    
+
     <button type="submit"  name="create_cloth" class=" create-btn">저장</button>
 </form>
 </div>
@@ -87,8 +111,9 @@
         <hr>
         <strong>-이름: {{ queryset.cloth_name }} </strong>  <br>
         <strong>-종류: {{ queryset.cloth_var }}</strong> <br>
-        <strong>-색상1: {{ queryset.cloth_col_1 }}</strong> <br>
-        <strong>-색상2: {{ queryset.cloth_col_2 }}</strong> <br>
+        <strong>-색상1: <span class="color-box color1" style="background-color: {{ queryset.cloth_col_1 }}"></span></strong> <br>
+        <strong>-색상2: <span class="color-box color2" style="background-color: {{ queryset.cloth_col_2 }}"></span></strong> <br>
+
         <form action="{% url 'app:mycloset' %}" method="post">
             {% csrf_token %}
             <button type="submit" class="update-btn" name="update_cloth" value="{{ queryset.id }}">수정</button>
