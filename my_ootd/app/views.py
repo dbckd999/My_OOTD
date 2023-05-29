@@ -302,6 +302,8 @@ def my(request):
 
 
 def personal_color(request):
+    if request.method == 'GET':
+        print(request.GET.get('picked_color'))
     return render(request, 'app/color.html', {})
 
 
