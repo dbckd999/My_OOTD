@@ -283,7 +283,7 @@ def save_my_style(request):
 
 
 def saved_cody(request):
-    c = CodyLog.objects.filter(user_id=request.user)
+    c = CodyLog.objects.filter(user_id=request.user.id)
     saved = list()
     for cc in c:
         saved.append([
