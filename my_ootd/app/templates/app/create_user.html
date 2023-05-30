@@ -1,80 +1,54 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8" />
-	<title>회원가입</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
-    <meta name="format-detection" content="telephone=no" />
-    <!-- 부트스트랩 css 사용 -->
-    <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'custom.css' %}">
-    <link rel="apple-touch-icon" href="경로/이미지파일명.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-
-    <style>
-        h1,h2,h3,h4,h5 { font-family : LINESeedKR-Bd}
-        input { font-family:Noto Sans KR}
-    </style>
-
-</head>
-<body>
-	<div id="app">
-        <header id="header">
-            <nav class="navbar bg-white border-bottom">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">
-                        <img src="{% static 'icons/logo_icon.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                        <h3 style="display:inline; font-family:SEBANG_Gothic_Bold">#My_OOTD</h3>
-                    </a>
-                </div>
-            </nav>
-        </header>
-
-        <div id="container">
-            <div class="container-fluid p-4">
-                <h3 class="my-2 mb-4">회원가입</h3>
-                    <div class="Input_ID my-4">
-                        <label for="InputId" class="form-label" style="margin : 0"><h5>아이디</h5></label>
-                        <input type="text" class="form-control" id="InputId" placeholder="아이디 입력" >
-                    </div>
-                    <div class="Input_PW my-4">
-                        <label for="InputPW" class="form-label" style="margin : 0"><h5>비밀번호</h5></label>
-                        <input type="password" class="form-control" id="InputPW" placeholder="비밀번호 입력" >
-                    </div>
-                    <div class="Input_PW_check my-4">
-                        <label for="InputPwCheck" class="form-label" style="margin : 0"><h5>비밀번호 확인</h5></label>
-                        <input type="password" class="form-control" id="InputPwCheck" placeholder="비밀번호 입력" >
-                    </div>
-                    <div class="Input_NICK my-4">
-                        <label for="InputNick" class="form-label" style="margin : 0"><h5>닉네임</h5></label>
-                        <input type="text" class="form-control" id="InputNick" placeholder="닉네임 입력" >
-                    </div>
-                    <div class="Input_PC my-4">
-                        <label for="InputPersonal" class="form-label" style="margin : 0"><h5>퍼스널컬러</h5></label>
-                        <select class="form-select">
-                            <option selected value="0">선택 안함</option>
-                            <option value="1">봄라이트</option>
-                            <option value="2">봄클리어</option>
-                            <option value="3">봄스트롱</option>
-                            <option value="4">여름라이트</option>
-                            <option value="5">여름클리어</option>
-                            <option value="6">여름뮤트</option>
-                            <option value="7">가을뮤트</option>
-                            <option value="8">가을딥</option>
-                            <option value="9">가을다크</option>
-                            <option value="10">겨울스트롱</option>
-                            <option value="11">겨울딥</option>
-                            <option value="12">겨울다크</option>
-                        </select>
-                    </div>
-                    <div class="join_button">
-                        <input type="submit" class="btn btn-dark w-100" value="가입하기">
-                    </div>
+{% block content %}
+<div id="container">
+    <div class="container-fluid p-4">
+        <h3 class="my-2 mb-4">회원가입</h3>
+        <form action="{% url 'app:sign_up' %}" method="post">
+            {% csrf_token %}
+            <div class="Input_ID my-4">
+                <label for="InputId" class="form-label" style="margin : 0"><h5>아이디</h5></label>
+                <input type="text" name="{{form.username.name}}" class="form-control" id="InputId" placeholder="아이디 입력">
             </div>
-        </div>
+            <div class="Input_PW my-4">
+                <label for="InputPW" class="form-label" style="margin : 0"><h5>비밀번호</h5></label>
+                <input type="password" name="{{form.password1.name}}" class="form-control" id="InputPW" placeholder="비밀번호 입력" >
+            </div>
+            <div class="Input_PW_check my-4">
+                <label for="InputPwCheck" class="form-label" style="margin : 0"><h5>비밀번호 확인</h5></label>
+                <input type="password" name="{{form.password2.name}}" class="form-control" id="InputPwCheck" placeholder="비밀번호 입력" >
+            </div>
+            <div class="Input_NICK my-4">
+                <label for="InputNick" class="form-label" style="margin : 0"><h5>닉네임</h5></label>
+                <input type="text" name="{{form.nickname.name}}" class="form-control" id="InputNick" placeholder="닉네임 입력" >
+            </div>
+            <div class="Input_PC my-4">
+                <label for="InputPersonal" class="form-label" style="margin : 0"><h5>퍼스널컬러</h5></label>
+                <select class="form-select">
+                    <option selected value="0">선택 안함</option>
+                    <option value="1">봄라이트</option>
+                    <option value="2">봄클리어</option>
+                    <option value="3">봄스트롱</option>
+                    <option value="4">여름라이트</option>
+                    <option value="5">여름클리어</option>
+                    <option value="6">여름뮤트</option>
+                    <option value="7">가을뮤트</option>
+                    <option value="8">가을딥</option>
+                    <option value="9">가을다크</option>
+                    <option value="10">겨울스트롱</option>
+                    <option value="11">겨울딥</option>
+                    <option value="12">겨울다크</option>
+                </select>
+            </div>
+            이메일: {{form.email}}<br>
+            남/여: {{form.is_male}}<br>
+            전화번호: {{form.phone}}<br>
+            색상(변경예정): {{form.skin_color}}<br>
+            {% comment %}변경 후 '퍼스널컬러'에 name="{{form.skin_color.name}}"를 삽입해야함.{% endcomment %}
+            <div class="join_button">
+                <input type="submit" class="btn btn-dark w-100" value="가입하기">
+            </div>
+        </form>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

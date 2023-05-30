@@ -17,17 +17,17 @@ import math
 def root(request):
     # if ['weather', 'weather_icon_filename'] not in request.session:
      
-    sevuser = SevUser()
-    
     res = weather()
     request.session['weather'] = res
     request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
 
     try:
         context = {        
-            "userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
+            # "_userdata": UserClothes.all_user_datas(UserClothes(), SevUser.objects.get(id=request.user.id)),
+            "userdata": UserClothes.objects.filter(user_id=request.user.id, cloth_var='top'),
             "cody": cloth_all_recommend(request),
-            "saved_cody": saved_cody(request)
+            "saved_cody": saved_cody(request),
+            "category": ('top', 'pants', 'outer', 'shoes', 'accessory')  # 카테고리 조회 전용
         }
     except SevUser.DoesNotExist:
         context = {
@@ -61,7 +61,7 @@ def sign_up(request):
             , 'phone': '01044445555'
         })
     }
-    return render(request, 'app/signup.html', context)
+    return render(request, 'app/create_user.html', context)
 
 
 # 로그아웃
@@ -235,8 +235,8 @@ def cloth_recommend(cloth_type: str, request) -> UserClothes or None:
     3. +날씨 고려해 긴팔/짧은팔 추천
     :return: 4. 색상값 중 가장 가까운 옷 선택
     """
-    cloth_len = len(UserClothes.objects.filter(cloth_var=cloth_type))
-    if cloth_len is not 0:
+    cloth_len = len(UserClothes.objects.filter(user_id=request.user.id, cloth_var=cloth_type))
+    if cloth_len != 0:
         color_pick = random.randrange(0, cloth_len)
         # print(color_pick)
         cloth = UserClothes.objects.filter(user_id=request.user.id, cloth_var=cloth_type)[color_pick]
@@ -283,7 +283,7 @@ def save_my_style(request):
 
 
 def saved_cody(request):
-    c = CodyLog.objects.filter(user_id=request.user)
+    c = CodyLog.objects.filter(user_id=request.user.id)
     saved = list()
     for cc in c:
         saved.append([
@@ -302,4 +302,25 @@ def my(request):
 
 
 def personal_color(request):
+    if request.method == 'GET':
+        print(request.GET.get('picked_color'))
     return render(request, 'app/color.html', {})
+
+
+# 카테고리 별 옷장 조회
+@csrf_exempt
+def clothes_category(request):
+    if request.method == 'POST':
+        key = request.POST.get('category')
+
+        c = UserClothes.objects.filter(user_id=request.user.id, cloth_var=key)
+        c_list = []
+        for i in c:
+            c_list.append(str(i.cloth_img))
+
+        try:
+            return HttpResponse(str(c_list), status=200)
+        except IntegrityError as e:
+            return HttpResponse(str(e), status=409)
+
+    return HttpResponse(status=400)  # 유효하지 않은 요청인 경우 400 응답 반환
