@@ -13,6 +13,7 @@ import random
 import json
 import math
 
+p_color = {}
 
 def root(request):
     # if ['weather', 'weather_icon_filename'] not in request.session:
