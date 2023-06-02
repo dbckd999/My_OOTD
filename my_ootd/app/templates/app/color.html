@@ -1,21 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<style>
-    h1 {
-     top: 10%;
-     transform: translate(+43%, -30%);
-     font-size: 30px;
-     font-weight: bold;
-     color: black;
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .color-box {
+      width: 100px;
+      height: 100px;
+      background-color: rgb(255, 0, 0); /* 빨간색 */
     }
-    form {
+    .hi {
       margin: 20px auto;
       max-width: 600px;
       text-align: center;
     }
 
-    label {
+    .hello {
       display: block;
       margin: 10px;
     }
@@ -24,7 +25,7 @@
       display: none;
     }
 
-    img {
+    .im {
       display: inline-block;
       border: 0.5px solid #ccc;
       padding: 1px;
@@ -34,22 +35,28 @@
     }
 
     input[type="radio"]:checked + img {
-    border: 3px solid black;
+      border: 3px solid black;
     }
 
-</style>
-<form method="get" action="{% url 'app:personal_color' %}">
+  </style>
+</head>
+<body>
+  <div class="color-box"></div>
+  <form method="get" action="{% url 'app:personal_color' %}">
     <label>
-        <input type="radio" name="picked_color" >
-        <img src="C:\Users\user\Desktop\qwert\1234.jpg">
+      <input type="radio" name="picked_color">
+      <img src="C:\Users\user\Desktop\qwert\1234.jpg">
     </label>
 
     <label>
-        <input type="radio" >
-        <img src="C:\Users\user\Desktop\qwert\5678.jpg">
+      <input type="radio" name="picked_color">
+      <img src="C:\Users\user\Desktop\qwert\5678.jpg">
     </label>
 
-    <label for="picked-id">선택한 퍼스널 컬러로 결정하기!</label><input type="checkbox" name="picked" id="picked-id">
-    <input type="submit" value="다음 으로">
-</form>
+    <label for="picked-id">선택한 퍼스널 컬러로 결정하기!</label>
+    <input type="checkbox" name="picked" id="picked-id">
+    <input type="submit" value="다음으로">
+  </form>
+</body>
+</html>
 {% endblock %}
