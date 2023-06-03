@@ -4,6 +4,7 @@ from django.db import IntegrityError
 
 from .models import UserClothes, SevUser, CodyLog
 from .forms import UserClothesForm, SevUserCreationForm
+from .personal_colors import PersonalColor
 
 from .weather import weather, select_weather_icon_name
 
@@ -161,39 +162,55 @@ def get_close_color(request):
         g = request.POST['G']
         b = request.POST['B']
         c_var = request.POST['col_cloth_var']
+        p_col_var = request.POST['p_col_var']
 
         cloth = UserClothes.all_user_datas(UserClothes(), retrieve)
         cloth_col = []
+        count = 0
 
         for i in cloth:
             data_tmp = []
             tmp = i['cloth_col_1']
             nm = i['cloth_name']
             col_cloth_var = i['cloth_var']
+            if (c_var == col_cloth_var):
+                count += 1
             for i in (1, 3, 5):
                 decimal = int(tmp[i:i+2], 16)
                 data_tmp.append(decimal)
 
             cloth_col.append((nm, tuple(data_tmp), col_cloth_var))
-
-        MYCOL = (int(r), int(g), int(b))
-        dist = []
-        for i in range(len(cloth_col)):
-            name = cloth_col[i][0]
-            t_col = cloth_col[i][1]
-            t_var = cloth_col[i][2]
-            t_r, t_g, t_b = t_col
-            distance = math.sqrt((MYCOL[0] - t_r)**2 + (MYCOL[1] - t_g)**2 + (MYCOL[2] - t_b)**2)
-            dist.append((distance, t_col, name, t_var))
         
-        dist.sort()
-
-        for i in range(len(dist)):
-            if (dist[i][3] == c_var):
-                print((i+1), ": 옷 이름: ", dist[i][2],  "  색: ", dist[i][1], "  거리: ", round(dist[i][0], 2), " 종류 : ", dist[i][3])
+        
+        p_col = PersonalColor.get_personal_color(PersonalColor(), int(p_col_var) - 1)
+        MYCOL = p_col
+        dist = []
+        mycol = []
+        for c in MYCOL:
+            for i in (1, 3, 5):
+                decimal = int(c[i:i+2], 16)
+                mycol.append(decimal)
+                
+            for i in range(len(cloth_col)):
+                name = cloth_col[i][0]
+                t_col = cloth_col[i][1]
+                t_var = cloth_col[i][2]
+                if (t_var != c_var):
+                    continue                
+                t_r, t_g, t_b = t_col                
+                distance = math.sqrt((mycol[0] - t_r)**2 + (mycol[1] - t_g)**2 + (mycol[2] - t_b)**2)
+                dist.append((distance, t_col, name, t_var, c))            
+            
+            mycol.clear()
+        
+        dist.sort()        
+        tmp = []
+        for i in range(len(dist)):        
+            if (dist[i][2] not in tmp):
+                print((i+1), ": 옷 이름: ", dist[i][2],  "  색: ", dist[i][1], "  거리: ", round(dist[i][0], 2), " 종류 : ", dist[i][3], " 비교한 색: ", dist[i][4])            
+                tmp.append(dist[i][2])
             else:
                 continue
-
         color_match = { 
             "user": request.user,
             "userdata": UserClothes.all_user_datas(UserClothes(), retrieve),
@@ -210,6 +227,33 @@ def get_close_color(request):
         }
         # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/color_match_test.html', userClothes_post)
+
+def select_color_test(request):
+    p_cols = ["BSp", "LSp", "TSp", "SSu", "LSu", "TSu", "DAu", "SAu", "TAu", "DWi", "TWi", "BWi"]
+    isFirst = True
+
+    f_col, s_col, t_col = 0, 0, 0
+    
+    if (not isFirst):
+        while (s_col == f_col):
+            f_col = random.randrange(0, 12)
+            s_col = random.randrange(0, 12)
+    else:
+        while (s_col == f_col or s_col == t_col or f_col == t_col):
+            f_col = random.randrange(0, 12)
+            s_col = random.randrange(0, 12)
+            t_col = random.randrange(0, 12)
+    
+    print("F:", f_col, "S:", s_col, "T:", t_col)
+
+    col = {
+        "f": p_cols[f_col],
+        "s": p_cols[s_col],
+        "t": p_cols[t_col]
+    }
+
+    return render(request, 'app/select_color_test.html', col)
+        
 
 
 def create_user(request):
