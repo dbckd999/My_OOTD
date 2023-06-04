@@ -16,9 +16,9 @@ import math
 
 p_color = {
         #봄웜
-    color: ff6600 ;
-    color: ff3300 ;
-    color: f00641e8;
+    color: rgb(238, 32, 5);
+    color: rgb(216, 76, 76);
+    color: rgb(231, 31, 16);
         #가을웜
     color: rgba(143, 19, 3, 0.884);
     color: rgba(175, 51, 2, 0.884);
