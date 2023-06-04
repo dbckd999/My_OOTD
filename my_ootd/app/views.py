@@ -15,23 +15,27 @@ import json
 import math
 
 p_color = {
-        #봄웜
-    color: rgb(238, 32, 5);
-    color: rgb(216, 76, 76);
-    color: rgb(231, 31, 16);
-        #가을웜
-    color: rgba(143, 19, 3, 0.884);
-    color: rgba(175, 51, 2, 0.884);
-    color: rgba(214, 129, 96, 0.884);
-        #여름쿨
-    color: rgba(170, 70, 140, 0.884);
-    color: rgba(230, 7, 74, 0.884);
-    color: rgba(207, 141, 196, 0.884);
-        #겨울쿨
-    color: rgb(163, 25, 48);
-    color: rgb(66, 3, 19);
-    color: rgb(80, 7, 62);
-           }
+    'spring': [
+        'rgb(238, 32, 5)',
+        'rgb(216, 76, 76)',
+        'rgb(231, 31, 16)'
+    ],
+    'summer': [
+        'rgba(143, 19, 3, 0.884)',
+        'rgba(175, 51, 2, 0.884)',
+        'rgba(214, 129, 96, 0.884)'
+    ],
+    'autumn': [
+        'rgba(170, 70, 140, 0.884)',
+        'rgba(230, 7, 74, 0.884)',
+        'rgba(207, 141, 196, 0.884)'
+    ],
+    'winter': [
+        'rgb(163, 25, 48)',
+        'rgb(66, 3, 19)',
+        'rgb(80, 7, 62)'
+    ]
+}
 
 def root(request):
     # if ['weather', 'weather_icon_filename'] not in request.session:
