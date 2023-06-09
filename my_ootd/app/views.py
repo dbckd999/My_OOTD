@@ -228,32 +228,46 @@ def get_close_color(request):
         }
         # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/color_match_test.html', userClothes_post)
-
-def select_color_test(request):
-    p_cols = ["BSp", "LSp", "TSp", "SSu", "LSu", "TSu", "DAu", "SAu", "TAu", "DWi", "TWi", "BWi"]
-    isFirst = True
-
-    f_col, s_col, t_col = 0, 0, 0
     
-    if (not isFirst):
-        while (s_col == f_col):
-            f_col = random.randrange(0, 12)
-            s_col = random.randrange(0, 12)
+
+
+@csrf_exempt
+def select_color_test(request):    
+    p_cols = ["BSp", "LSp", "TSp", "SSu", "LSu", "TSu", "DAu", "SAu", "TAu", "DWi", "TWi", "BWi", "None"]
+
+    f_col, s_col, t_col = -1, -1, -1
+
+    if request.method == 'POST':
+        isFirst = int(request.POST.get('isfirst'))
+        print(isFirst)
+        
+        if (isFirst):
+            while (s_col == f_col):
+                f_col = random.randrange(0, 12)
+                s_col = random.randrange(0, 12)
+                print("aaa")
+        else:
+            while (s_col == f_col or s_col == t_col or f_col == t_col):
+                f_col = random.randrange(0, 12)
+                s_col = random.randrange(0, 12)
+                t_col = random.randrange(0, 12)
+                print("ddd")
+
+        print("F:", f_col, "S:", s_col, "T:", t_col)
+
+        col = {
+            "f": p_cols[f_col],
+            "s": p_cols[s_col],
+            "t": p_cols[t_col],            
+        }
+        
+        data = json.dumps(col)
+
+        #return render(request, 'app/select_color_test.html', data)
+        return HttpResponse(data)
     else:
-        while (s_col == f_col or s_col == t_col or f_col == t_col):
-            f_col = random.randrange(0, 12)
-            s_col = random.randrange(0, 12)
-            t_col = random.randrange(0, 12)
-    
-    print("F:", f_col, "S:", s_col, "T:", t_col)
+        return render(request, 'app/select_color_test.html')
 
-    col = {
-        "f": p_cols[f_col],
-        "s": p_cols[s_col],
-        "t": p_cols[t_col]
-    }
-
-    return render(request, 'app/select_color_test.html', col)
         
 
 

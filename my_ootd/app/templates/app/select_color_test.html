@@ -1,3 +1,33 @@
-{{ f }}
-{{ s }}
-{{ t }}
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+   
+
+<body>
+    <button id="next" class="btn">다음</button>
+    <script>
+        var isFirst = 1;
+        console.log(isFirst)
+        $('#next').on('click', ()=>{            
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'app:select_color_test' %}',
+                data: {
+                    'isfirst': isFirst,
+                },
+                success:(data)=>{
+                    console.log(data);
+                    var col = JSON.parse(data);
+                    $("#f1").text(col.f);
+                    $("#s1").text(col.s);
+                    $("#t1").text(col.t);                    
+                    isFirst = 0;
+                },
+            })
+        })
+    </script>
+
+    <h1 id="f1">1</h1>
+    <h1 id="s1">1</h1>
+    <h1 id="t1">1</h1>
+</body>
