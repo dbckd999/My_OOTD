@@ -8,54 +8,47 @@
     .color-box {
       width: 100px;
       height: 100px;
-      background-color: rgb(255, 0, 0); /* 빨간색 */
+      border: 1px solid black;
     }
-    .hi {
-      margin: 20px auto;
-      max-width: 600px;
-      text-align: center;
-    }
-
-    .hello {
-      display: block;
-      margin: 10px;
-    }
-
-    input[type="radio"] {
-      display: none;
-    }
-
-    .im {
-      display: inline-block;
-      border: 0.5px solid #ccc;
-      padding: 1px;
-      margin: 10px;
-      width: 200px;
-      height: 200px;
-    }
-
-    input[type="radio"]:checked + img {
-      border: 3px solid black;
-    }
-
   </style>
+  <script>
+    function changeColor() {
+      var selectedColor = document.querySelector('input[name="picked_color"]:checked').value;
+
+      var colorBox = document.getElementById("color-box");
+      colorBox.style.backgroundColor = selectedColor;
+    }
+
+    function saveColor() {
+      var selectedColor = document.querySelector('input[name="picked_color"]:checked').value;
+
+      // Perform actions to save the selected color
+      console.log("Selected color: " + selectedColor);
+
+      // Clear the selected color and enable radio buttons for the next selection
+      var colorBox = document.getElementById("color-box");
+      colorBox.style.backgroundColor = "";
+
+      var radioButtons = document.querySelectorAll('input[name="picked_color"]');
+      radioButtons.forEach(function(radioButton) {
+        radioButton.checked = false;
+        radioButton.disabled = false;
+      });
+    }
+  </script>
 </head>
 <body>
-  <div class="color-box"></div>
-  <form method="get" action="{% url 'app:personal_color' %}">
+  <div class="color-box" id="color-box"></div>
+  <form id="color-form">
     <label>
-      <input type="radio" name="picked_color">
-      <img src="C:\Users\user\Desktop\qwert\1234.jpg">
+      <input type="radio" name="picked_color" value="rgb(238, 32, 5)" onchange="changeColor()"> 1
     </label>
-
     <label>
-      <input type="radio" name="picked_color">
-      <img src="C:\Users\user\Desktop\qwert\5678.jpg">
+      <input type="radio" name="picked_color" value="rgb(143, 19, 0.884)" onchange="changeColor()"> 2
     </label>
-
     <label for="picked-id">선택한 퍼스널 컬러로 결정하기!</label>
     <input type="checkbox" name="picked" id="picked-id">
-    <input type="submit" value="다음으로">
+    <input type="button" value="다음으로" onclick="saveColor()">
   </form>
 </body>
 </html>
