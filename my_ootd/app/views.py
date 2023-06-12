@@ -40,9 +40,9 @@ p_color = {
 def root(request):
     # if ['weather', 'weather_icon_filename'] not in request.session:
      
-    res = weather()
-    request.session['weather'] = res
-    request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
+    # res = weather()
+    # request.session['weather'] = res
+    # request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
 
     try:
         context = {        
