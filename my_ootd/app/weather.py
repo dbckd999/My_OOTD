@@ -101,10 +101,10 @@ def weather() -> dict:
             print("Undefined SKY code")
     doc['SKY_st'] = sky_stack
 
-
     # 강수형태(PTY) 코드 : 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
-    pty_stack = [0, 0, 0]
+    pty_stack = [0, 0, 0, 0, 0]
     for item in tree.findall(f".//item[fcstDate='{base_date}'][category='PTY']"):
+        print('item:', int(item.find('fcstValue').text))
         pty_stack[int(item.find('fcstValue').text)] += 1
     doc['PTY_st'] = pty_stack
 
@@ -115,9 +115,9 @@ def weather() -> dict:
 # 강수형태(PTY) 코드 : 없음, 비, 비/눈, 눈, 소나기
 def select_weather_icon_name(sky: list, pty: list) -> str:
     icon_name = ''
-    # sky            # 맑음       # 구름많음   # 흐림
+    # sky             맑음       / 구름많음   / 흐림
     sky_icon_name = ['NB01.png', 'NB03.png', 'NB04.png']
-    # pty            # 비         # 비 또는 눈 # 눈 또는 비 # 눈       # 소나기
+    # pty            # 비       / 비 또는 눈 / 눈 또는 비 / 눈       / 소나기
     pty_icon_name = ['NB08.png', 'NB12.png', 'NB13.png', 'NB11.png', 'NB07.png']
 
     if pty.index(max(pty)) == 0:
