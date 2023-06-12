@@ -23,26 +23,35 @@
             <hr class="m-3">
             <div class="dail_code container-fluid m-3 mx-2">
                 <h3 style="font-family: TheJamsil5Bold"><a class="navbar-brand" href="#">데일리 코디</a></h3>
-                <style>
-                    .cody img{width: 100px; height:100px;}
-                </style>
-                <div class="card cody">
-<!--                <img src="{% static 'image/daily_code.jpg' %}" class="card-img-top" alt="daily_code" id="daily_code_img">-->
-                    {% if cody.top %}
-                    <img src="/media/{{cody.top}}" id="top" class="card-img-top" alt="daily_code">
-                    {% endif %}
-                    {% if cody.pants %}
-                    <img src="/media/{{cody.pants}}" id="pants" class="card-img-top" alt="daily_code">
-                    {% endif %}
-                    {% if cody.outer %}
-                    <img src="/media/{{cody.outer}}" id="outer" class="card-img-top" alt="daily_code">
-                    {% endif %}
-                    {% if cody.shoes %}
-                    <img src="/media/{{cody.shoes}}" id="shoes" class="card-img-top" alt="daily_code">
-                    {% endif %}
-                    {% if cody.accessory %}
-                    <img src="/media/{{cody.accessory}}" id="acc" class="card-img-top" alt="daily_code">
-                    {% endif %}
+                <div class="card cody h-100">
+                    <div class="row row-cols-2">
+    <!--                <img src="{% static 'image/daily_code.jpg' %}" class="card-img-top" alt="daily_code" id="daily_code_img">-->
+                        {% if cody.top %}
+                        <div class="col">
+                            <img src="/media/{{cody.top}}" id="top" class="card-img-top" alt="daily_code">
+                        </div>
+                        {% endif %}
+                        {% if cody.pants %}
+                        <div class="col">
+                            <img src="/media/{{cody.pants}}" id="pants" class="card-img-top" alt="daily_code">
+                        </div>
+                        {% endif %}
+                        {% if cody.outer %}
+                        <div class="col">
+                            <img src="/media/{{cody.outer}}" id="outer" class="card-img-top" alt="daily_code">
+                        </div>
+                        {% endif %}
+                        {% if cody.shoes %}
+                        <div class="col">
+                            <img src="/media/{{cody.shoes}}" id="shoes" class="card-img-top" alt="daily_code">
+                        </div>
+                        {% endif %}
+                        {% if cody.accessory %}
+                        <div class="col">
+                            <img src="/media/{{cody.accessory}}" id="acc" class="card-img-top" alt="daily_code">
+                        </div>
+                        {% endif %}
+                    </div>
 
                     <div class="card-body row justify-content-around" style="font-family:Noto Sans KR;">
                         <button id="save_mystyle" class="btn btn-secondary col mx-2" style="inline">스타일 등록하기</button>
@@ -172,41 +181,6 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <div class="col"> 
-                        <div class="card h-100">
-                            {% comment %} 옷 종류별로 영역 분할 {% endcomment %}
-                            {% comment %} 
-                                0행 0열: 아우터
-                                0행 1열: 상의
-                                1행 0열: 하의 or 원피스
-                                1행 1열: 신발
-                                2행 0열: 악세사리
-                                2행 1열: 모자
-                            {% endcomment %}
-                            <div class="row row-cols-2"> 
-                                <div class="col">
-                                    <img src="{% static 'image/outer.jpg'   %}" class="card-img-top" alt="top">
-                                </div>
-                                <div class="col">
-                                    <img src="{% static 'image/tshirt2.jpg' %}" class="card-img-top" alt="top">
-                                </div>
-                                <div class="col">
-                                    <img src="{% static 'image/pants.jpg'   %}" class="card-img-top" alt="top">
-                                </div>
-                                <div class="col">
-                                    <img src="{% static 'image/shoes.jpg'   %}" class="card-img-top" alt="top">
-                                </div>
-                                <div class="col">
-                                    <img src="{% static 'image/bag.jpg'     %}" class="card-img-top" alt="top">
-                                </div>
-                                <div class="col">
-                                    <img src="{% static 'image/cap.jpg'     %}" class="card-img-top" alt="top">
-                                </div>
-                            </div>
-                            
-                        {% comment %} <img src="{% static 'image/style1.jpg' %}" class="card-img-top" alt="top"> {% endcomment %}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
