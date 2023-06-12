@@ -12,18 +12,38 @@
     }
   </style>
   <script>
+    var p_color = {
+      'spring': [
+        'rgb(238, 32, 5)',
+        'rgb(216, 76, 76)',
+        'rgb(231, 31, 16)'
+      ],
+      'summer': [
+        'rgb(143, 19, 3, 0.884)',
+        'rgb(175, 51, 2, 0.884)',
+        'rgb(214, 129, 96, 0.884)'
+      ],
+      'autumn': [
+        'rgb(170, 70, 140, 0.884)',
+        'rgb(230, 7, 74, 0.884)',
+        'rgb(207, 141, 196, 0.884)'
+      ],
+      'winter': [
+        'rgb(163, 25, 48)',
+        'rgb(66, 3, 19)',
+        'rgb(80, 7, 62)'
+      ]
+    };
+
     function changeColor() {
       var selectedColor = document.querySelector('input[name="picked_color"]:checked').value;
-
       var colorBox = document.getElementById("color-box");
       colorBox.style.backgroundColor = selectedColor;
     }
 
     function saveColor() {
       var selectedColor = document.querySelector('input[name="picked_color"]:checked').value;
-
       console.log("Selected color: " + selectedColor);
-
       var colorBox = document.getElementById("color-box");
       colorBox.style.backgroundColor = "";
 
@@ -39,10 +59,10 @@
   <div class="color-box" id="color-box"></div>
   <form id="color-form">
     <label>
-      <input type="radio" name="picked_color" value="#ee2005" onchange="changeColor()"> 1
+      <input type="radio" name="picked_color" value="{{ p_color.spring[0] }}" onchange="changeColor()"> 1
     </label>
     <label>
-      <input type="radio" name="picked_color" value="#8f130e" onchange="changeColor()"> 2
+      <input type="radio" name="picked_color" value="{{ p_color.summer[1] }}" onchange="changeColor()"> 2
     </label>
     <label for="picked-id">선택한 퍼스널 컬러로 결정하기!</label>
     <input type="checkbox" name="picked" id="picked-id">
