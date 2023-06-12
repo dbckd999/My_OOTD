@@ -143,6 +143,7 @@ def post_cloth(request):
         }
         return render(request, 'app/clothes.html', userClothes_post)
 
+
 # 옷 정보 업데이트
 def update_cloth(request):
     if request.method == 'POST':
@@ -159,7 +160,7 @@ def update_cloth(request):
             cloth_update.cloth_var = request.POST['update_cloth_var']
             cloth_update.cloth_col_1 = request.POST['update_cloth_col_1']
             cloth_update.cloth_col_2 = request.POST['update_cloth_col_2']
-            if (request.FILES.get('update_cloth_img')):
+            if request.FILES.get('update_cloth_img'):
                 cloth_update.delete_old_cloth()
                 cloth_update.cloth_img = request.FILES.get('update_cloth_img')
             else:
@@ -175,7 +176,8 @@ def update_cloth(request):
                     cloth_update.save()
         previouspage = request.POST.get('previouspage', '/')
         return redirect(previouspage)
-    
+
+
 def get_close_color(request):
     if request.method == 'POST':
 
@@ -196,7 +198,7 @@ def get_close_color(request):
             tmp = i['cloth_col_1']
             nm = i['cloth_name']
             col_cloth_var = i['cloth_var']
-            if (c_var == col_cloth_var):
+            if c_var == col_cloth_var:
                 count += 1
             for i in (1, 3, 5):
                 decimal = int(tmp[i:i+2], 16)
@@ -229,7 +231,7 @@ def get_close_color(request):
         dist.sort()        
         tmp = []
         for i in range(len(dist)):        
-            if (dist[i][2] not in tmp):
+            if dist[i][2] not in tmp:
                 print((i+1), ": 옷 이름: ", dist[i][2],  "  색: ", dist[i][1], "  거리: ", round(dist[i][0], 2), " 종류 : ", dist[i][3], " 비교한 색: ", dist[i][4])            
                 tmp.append(dist[i][2])
             else:
@@ -237,7 +239,7 @@ def get_close_color(request):
         color_match = { 
             "user": request.user,
             "userdata": UserClothes.all_user_datas(UserClothes(), retrieve),
-            "colormatch" : dist
+            "colormatch": dist
             }
 
         return render(request, 'app/color_match_test.html', color_match)
@@ -250,7 +252,6 @@ def get_close_color(request):
         }
         # 조회 시 나오는 내용 : 별명, 옷 이름, 옷 종류, 색1, 색2
         return render(request, 'app/color_match_test.html', userClothes_post)
-    
 
 
 @csrf_exempt
@@ -263,13 +264,13 @@ def select_color_test(request):
         isFirst = int(request.POST.get('isfirst'))
         print(isFirst)
         
-        if (isFirst):
-            while (s_col == f_col):
+        if isFirst:
+            while s_col == f_col:
                 f_col = random.randrange(0, 12)
                 s_col = random.randrange(0, 12)
                 print("aaa")
         else:
-            while (s_col == f_col or s_col == t_col or f_col == t_col):
+            while s_col == f_col or s_col == t_col or f_col == t_col:
                 f_col = random.randrange(0, 12)
                 s_col = random.randrange(0, 12)
                 t_col = random.randrange(0, 12)
@@ -289,8 +290,6 @@ def select_color_test(request):
         return HttpResponse(data)
     else:
         return render(request, 'app/select_color_test.html')
-
-        
 
 
 def create_user(request):
