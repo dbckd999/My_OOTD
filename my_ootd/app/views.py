@@ -41,9 +41,9 @@ p_color = {
 def root(request):
     # if ['weather', 'weather_icon_filename'] not in request.session:
      
-    res = weather()
-    request.session['weather'] = res
-    request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
+    # res = weather()
+    # request.session['weather'] = res
+    # request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
 
     try:
         context = {        
@@ -183,16 +183,15 @@ def get_close_color(request):
 
         retrieve = SevUser.objects.get(id=request.user.id)
 
-        r = request.POST['R']
-        g = request.POST['G']
-        b = request.POST['B']
-        c_var = request.POST['col_cloth_var']
-        p_col_var = request.POST['p_col_var']
-
+        #r = request.POST['R']
+        #g = request.POST['G']
+        #b = request.POST['B']
+        c_var = request.POST['col_cloth_var'] # 옷 종류
+        p_col_var = request.POST['p_col_var'] # 퍼스널컬러
+        '''
         cloth = UserClothes.all_user_datas(UserClothes(), retrieve)
         cloth_col = []
         count = 0
-
         for i in cloth:
             data_tmp = []
             tmp = i['cloth_col_1']
@@ -241,8 +240,44 @@ def get_close_color(request):
             "userdata": UserClothes.all_user_datas(UserClothes(), retrieve),
             "colormatch": dist
             }
+        
+'''
+        cloth_len = len(UserClothes.objects.filter(user_id=request.user.id, cloth_var='top'))
+        if cloth_len != 0:
+            color_pick = random.randrange(0, cloth_len)
+            # print(color_pick)            
+            cloth = UserClothes.objects.filter(user_id=request.user.id, cloth_var='top')            
 
-        return render(request, 'app/color_match_test.html', color_match)
+            color_pick_p = p_color['spring'][0]
+            cloth_col = []
+            for i in range(len(cloth)):
+                data_tmp = []
+                tmp = cloth[i].cloth_col_1
+                nm = cloth[i].cloth_name
+                col_cloth_var = cloth[i].cloth_var
+                for i in (1, 3, 5):
+                    decimal = int(tmp[i:i+2], 16)
+                    data_tmp.append(decimal)
+
+                cloth_col.append((nm, tuple(data_tmp), col_cloth_var))
+
+            dist = []
+            mycol = []
+            for i in color_pick_p:                
+                mycol.append(i)
+                
+            for i in range(len(cloth_col)):
+                name = cloth_col[i][0]
+                t_col = cloth_col[i][1]
+                t_var = cloth_col[i][2]            
+                t_r, t_g, t_b = t_col                
+                distance = math.sqrt((mycol[0] - t_r)**2 + (mycol[1] - t_g)**2 + (mycol[2] - t_b)**2)
+                dist.append((distance, t_col, name, t_var, color_pick_p))
+            dist.sort()
+            for i in range(len(dist)):
+                print((i+1), ": 옷 이름: ", dist[i][2],  "  색: ", dist[i][1], "  거리: ", round(dist[i][0], 2), " 종류 : ", dist[i][3], " 비교한 색: ", dist[i][4])
+
+        return render(request, 'app/color_match_test.html')
 
     else:
         retrieve = SevUser.objects.get(id=request.user.id)
@@ -319,8 +354,52 @@ def cloth_recommend(cloth_type: str, request) -> UserClothes or None:
     if cloth_len != 0:
         color_pick = random.randrange(0, cloth_len)
         # print(color_pick)
-        cloth = UserClothes.objects.filter(user_id=request.user.id, cloth_var=cloth_type)[color_pick]
+        cloth = UserClothes.objects.filter(user_id=request.user.id, cloth_var=cloth_type)
+        
+        # 퍼스널컬러 (spring은 임시) 색 선택        
+        color_pick_p = p_color['spring'][random.randrange(0, 3)]
+
+        # 해당하는 종류의 옷들의 색 HEX -> RGB 변환 후 저장
+        cloth_col = []
+        for i in range(len(cloth)):
+            data_tmp = []
+            tmp = cloth[i].cloth_col_1
+            nm = cloth[i].cloth_name
+            col_cloth_var = cloth[i].cloth_var
+            for i in (1, 3, 5):
+                decimal = int(tmp[i:i+2], 16)
+                data_tmp.append(decimal)
+
+            cloth_col.append((nm, tuple(data_tmp), col_cloth_var))
+
+        # 선택한 퍼스널컬러 색과 선택한 옷의 색과 거리 비교
+        # 비교 후 거리에 따라 정렬
+        dist = []
+        mycol = []
+        for i in color_pick_p:                
+            mycol.append(i)
+            
+        for i in range(len(cloth_col)):
+            name = cloth_col[i][0]
+            t_col = cloth_col[i][1]
+            t_var = cloth_col[i][2]            
+            t_r, t_g, t_b = t_col                
+            distance = math.sqrt((mycol[0] - t_r)**2 + (mycol[1] - t_g)**2 + (mycol[2] - t_b)**2)
+            dist.append((distance, t_col, name, t_var, color_pick_p))
+        dist.sort()
+
+        # 콘솔 출력
+        for i in range(len(dist)):
+            print((i+1), ": 옷 이름: ", dist[i][2],  " 종류 : ", dist[i][3], "  색: ", dist[i][1], "  거리: ", round(dist[i][0], 2), " 비교한 색: ", dist[i][4])
+
+        # 퍼스널컬러 색과 가장 가까운 옷을 선택
+        for i in range(len(cloth)):
+            if (dist[0][2] == cloth[i].cloth_name):
+                cloth = cloth[i]
+                break
+
         return cloth
+    
     else:
         return None
 
