@@ -104,7 +104,6 @@ def weather() -> dict:
     # 강수형태(PTY) 코드 : 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
     pty_stack = [0, 0, 0, 0, 0]
     for item in tree.findall(f".//item[fcstDate='{base_date}'][category='PTY']"):
-        print('item:', int(item.find('fcstValue').text))
         pty_stack[int(item.find('fcstValue').text)] += 1
     doc['PTY_st'] = pty_stack
 
