@@ -41,9 +41,9 @@ p_color = {
 def root(request):
     # if ['weather', 'weather_icon_filename'] not in request.session:
      
-    # res = weather()
-    # request.session['weather'] = res
-    # request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
+    res = weather()
+    request.session['weather'] = res
+    request.session['weather_icon_filename'] = select_weather_icon_name(res['SKY_st'], res['PTY_st'])
 
     try:
         context = {        
@@ -457,7 +457,8 @@ def saved_cody(request):
 
 
 def my(request):
-    return render(request, 'app/user/userinfo.html', {})
+    user_ = SevUser.objects.get(id=request.user.id)
+    return render(request, 'app/user/userinfo.html', {"user_": user_})
 
 
 def personal_color(request):

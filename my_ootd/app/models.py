@@ -30,6 +30,7 @@ class SevUser(User):
 # 사용자 고유번호는 장고에 기본 제공되는 id 속성을 사용합니다.
 # 계정을 참고해서 CRD
 
+
 class UserClothes(models.Model):
     # tmp_userid = models.CharField(max_length=10) # 임시 계정
 
