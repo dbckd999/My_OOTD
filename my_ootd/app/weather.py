@@ -73,10 +73,14 @@ def weather() -> dict:
     #     doc['TMP'].append(float(item.find('fcstValue').text))
 
     # 최고 기온
-    doc['TMX'] = float(tree.find(f".//item[fcstDate='{base_date}'][category='TMX']").find('fcstValue').text)
+    for tmx in tree.findall(f".//item[fcstDate='{base_date}'][category='TMX']"):
+        doc['TMX'] = float(tmx.find('fcstValue').text)
+    # doc['TMX'] = float(tree.find(f".//item[fcstDate='{base_date}'][category='TMX']").find('fcstValue').text)
 
     # 최저 기온
-    doc['TMN'] = float(tree.find(f".//item[fcstDate='{base_date}'][category='TMN']").find('fcstValue').text)
+    for tmx in tree.findall(f".//item[fcstDate='{base_date}'][category='TMN']"):
+        doc['TMN'] = float(tmx.find('fcstValue').text)
+    # doc['TMN'] = float(tree.find(f".//item[fcstDate='{base_date}'][category='TMN']").find('fcstValue').text)
 
     # 강수확률
     for item in tree.findall(f".//item[fcstDate='{base_date}'][category='POP']"):
