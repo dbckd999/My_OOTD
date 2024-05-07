@@ -35,14 +35,7 @@ base_date = time.strftime('%Y%m%d')
 # 최저기온: 2시, 최고기온: 2, 5, 8, 11시 갱신
 base_time = '0200'
 
-url += 'serviceKey=' + serviceKey 
-+ '&numOfRows=' + str(numOfRows) 
-+ '&pageNo=' + str(pageNo) 
-+ '&base_date=' + base_date 
-+ '&base_time=' + base_time 
-+ '&nx=' + str(nx) 
-+ '&ny=' + str(ny)
-
+url += f'serviceKey={serviceKey}&numOfRows={numOfRows}&pageNo={pageNo}&base_date={base_date}&base_time={base_time}&nx={nx}&ny={ny}'
 
 # 오늘 [기온], 최고, 최저기온, 강수확률, 풍속 딕셔너리를 반환
 def weather() -> dict:
