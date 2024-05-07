@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 
 from .models import UserClothes, SevUser, CodyLog
@@ -90,8 +90,9 @@ def sign_up(request):
 
 # 로그아웃
 # https://docs.djangoproject.com/en/4.2/topics/auth/default/#how-to-log-a-user-out
-def logout(request):
+def _logout(request):
     logout(request)
+    redirect('/')
 
 
 # 옷 db에 저장, 조회, 삭제
