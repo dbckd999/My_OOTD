@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+{# TODO #5 비밀번호 등 양식에 맞지않을때 경고 표시 #}
 <form action="{% url 'app:sign_up' %}" method="post">
     {% csrf_token %}
     ID:{{form.username}}<br>
